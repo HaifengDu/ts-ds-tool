@@ -12,9 +12,6 @@ before_script:
 script:
 - npm run build
 - npm run ci
-- npm install codecov -g
-after_success:
-- codecov
 branches:
   except:
   - "/^v\\d+\\.\\d+\\.\\d+$/"
