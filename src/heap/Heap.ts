@@ -164,7 +164,7 @@ export abstract class Heap<T>{
         return !this.container.length;
     }
 
-    public find(arg: ((item: T) => boolean)|T){
+    public find(arg: any){
         let temp: T = null;
         this.container.forEach(item => {
             const match = typeof arg === "function" ? arg(item) : arg === item;
@@ -177,7 +177,7 @@ export abstract class Heap<T>{
         return temp;
     }
 
-    public findAll(arg: ((item: T) => boolean)|T){
+    public findAll(arg: any){
         const temp: Array<T> = [];
         this.container.forEach(item => {
             const match = typeof arg === "function" ? arg(item) : arg === item;
@@ -196,7 +196,7 @@ export abstract class Heap<T>{
         return [...this.container];
     }
 
-    private findAllIndex(arg: ((item: T) => boolean)|T){
+    private findAllIndex(arg: any){
         const temp: Array<number> = [];
         this.container.forEach((item, index) => {
             const match = typeof arg === "function" ? arg(item) : arg === item;

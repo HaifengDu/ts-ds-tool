@@ -67,7 +67,7 @@ export class LinkList<T> extends Collection<LinkNode<T>> {
      * 根据条件删除节点
      * @param cb
      */
-    public deleteNode(arg: ((item: T) => boolean)|T): boolean{
+    public deleteNode(arg: any): boolean{
         let temp: LinkNode<T> = this.headNode;
         let result = false;
         let prevNode: LinkNode<T>;
@@ -105,7 +105,7 @@ export class LinkList<T> extends Collection<LinkNode<T>> {
      * 根据条件查找节点
      * @param listNode
      */
-    public findNode(arg: ((item: T) => boolean)|T): LinkNode<T>{
+    public findNode(arg: any): LinkNode<T>{
         let temp: LinkNode<T> = this.headNode;
         let result: LinkNode<T>;
         while (temp){

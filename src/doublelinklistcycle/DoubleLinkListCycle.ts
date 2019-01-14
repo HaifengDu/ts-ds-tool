@@ -98,7 +98,7 @@ export class DoubleLinkListCycle<T> implements IEnumerable<T>{
      * 根据条件删除节点
      * @param arg
      */
-    public deleteNode(arg: ((item: T) => boolean)|T){
+    public deleteNode(arg: any){
         const deleteArr: Array<number> = [];
         if (this.isEmpty()){
             return deleteArr;
@@ -147,7 +147,7 @@ export class DoubleLinkListCycle<T> implements IEnumerable<T>{
 //      * 根据条件查找节点
 //      * @param cb
 //      */
-    public findNode(arg: ((item: T) => boolean)|T): DoubleLinkListNode<T>{
+    public findNode(arg: any): DoubleLinkListNode<T>{
         let cycleNode: DoubleLinkListNode<T> = this.headNode;
         let result: DoubleLinkListNode<T> = null;
         while (cycleNode){

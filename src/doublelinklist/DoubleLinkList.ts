@@ -61,7 +61,7 @@ export class DoubleLinkList<T> extends Collection<DoubleLinkNode<T>> {
      * 根据条件删除节点
      * @param cb
      */
-    public deleteNode(arg: ((item: T) => boolean) | T): boolean {
+    public deleteNode(arg: any): boolean {
         let temp: DoubleLinkNode<T> = this.headNode;
         let result = false;
         let prevNode: DoubleLinkNode<T>;
@@ -98,7 +98,7 @@ export class DoubleLinkList<T> extends Collection<DoubleLinkNode<T>> {
      * 根据条件查找节点
      * @param listNode
      */
-    public findNode(arg: ((item: T) => boolean) | T): DoubleLinkNode<T> {
+    public findNode(arg: any): DoubleLinkNode<T> {
         let temp: DoubleLinkNode<T> = this.headNode;
         let result: DoubleLinkNode<T>;
         while (temp) {
