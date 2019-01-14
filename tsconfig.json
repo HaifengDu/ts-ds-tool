@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "es2015",
+        "lib": [
+            "dom",
+            "es2015"
+        ],
+        "module": "es2015",
+        "outDir":"resource/",
+        "moduleResolution": "node",
+        "isolatedModules": false,
+        "experimentalDecorators": true,
+        "declaration": true,
+        "noImplicitAny": true,
+        "removeComments": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "allowSyntheticDefaultImports": true,
+    },
+    "exclude": [
+        "node_modules",
+        "**/*/__test__/*"
+    ],
+    "include": [
+        "src/**/*.ts"
+    ],
+    "compileOnSave": false
+  }

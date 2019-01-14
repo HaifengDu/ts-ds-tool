@@ -1,0 +1,63 @@
+{
+  "name": "js-datastructure",
+  "version": "1.0.0",
+  "description": "js-datastructure",
+  "main": "dist/data-structure.js",
+  "module": "dist/data-structure.es.js",
+  "typescript": {
+    "definition": "resource/index.d.ts"
+  },
+  "scripts": {
+    "build": "run-s build:*",
+    "build:dist": "run-s clean:dist bundle:dist bundle:es",
+    "clean:dist": "rimraf dist",
+    "bundle:dist": "rollup -c ./script/rollup-config.js",
+    "bundle:es": "rollup -c ./script/rollup-config-es.js",
+    "lint": "run-s lint:simple lint:tree",
+    "lint:simple": "tslint --type-check --project tsconfig.json src/*/*.ts",
+    "lint:tree": "tslint --type-check --project tsconfig.json src/tree/*/*.ts",
+    "copy:dist": "node ./script/copy-dist-typedefs.js",
+    "test": "jest",
+    "ci": "npm run test -- --coverage",
+    "codecov": "codecov",
+    "tsc": "tsc -p tsconfig.json"
+  },
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@git.scmacewill.cn:duhaifeng/js-datastructure.git"
+  },
+  "keywords": [
+    "data collection",
+    "data structures",
+    "data-collection",
+    "data-structures",
+    "data",
+    "structures",
+    "typescript",
+    "javascript"
+  ],
+  "author": "dhf",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^23.3.1",
+    "codecov": "^3.1.0",
+    "jest": "^23.5.0",
+    "npm-run-all": "^4.1.3",
+    "pre-commit": "^1.2.2",
+    "rollup": "0.59.1",
+    "rollup-plugin-buble": "0.19.2",
+    "rollup-plugin-commonjs": "9.1.3",
+    "rollup-plugin-json": "3.0.0",
+    "rollup-plugin-strip-banner": "0.2.0",
+    "run-sequence": "2.2.1",
+    "ts-jest": "^23.1.4",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^3.0.3",
+    "uglify-js": "2.8.11",
+    "uglify-save-license": "0.4.1"
+  }
+}
