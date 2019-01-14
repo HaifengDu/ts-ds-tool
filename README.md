@@ -1,1 +1,1 @@
-# js-datastructrue
+# js-datastructrue &middot; [![Build Status](https://travis-ci.org/HaifengDu/js-datastructure.svg?branch=master)](https://travis-ci.org/HaifengDu/js-datastructure) [![codecov](https://codecov.io/gh/HaifengDu/js-datastructure/branch/master/graph/badge.svg)](https://codecov.io/gh/HaifengDu/js-datastructure)
