@@ -10,3 +10,4 @@ logs/
 *.swp
 *.lock
 !.autod.conf.js
+package-lock.json
