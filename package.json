@@ -1,6 +1,6 @@
 {
   "name": "ts_ds_tool",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "description": "ts_ds_tool",
   "main": "dist/data-structure.js",
   "module": "dist/data-structure.es.js",
