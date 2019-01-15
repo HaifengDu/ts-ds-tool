@@ -1,7 +1,7 @@
 {
   "name": "ts_ds_tool",
   "version": "1.0.1",
-  "description": "ts_ds_tool",
+  "description": "Data structure and algorithm of TypeScript",
   "main": "dist/data-structure.js",
   "module": "dist/data-structure.es.js",
   "typescript": {
@@ -41,7 +41,7 @@
     "javascript"
   ],
   "author": "dhf",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/jest": "^23.3.1",
     "codecov": "^3.1.0",
