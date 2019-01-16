@@ -66,7 +66,8 @@ describe("TreeMap test", () => {
         const f2 = function(){console.log(1111); };
         treeMap.put(f2, 2);
         const keys = treeMap.keys();
-        expect(keys).toEqual([f2, f1]);
+        expect(keys).toContain(f1);
+        expect(keys).toContain(f2);
     });
     test("values in TreeMap", () => {
         const treeMap = new TreeMap<any, number>();
@@ -78,7 +79,8 @@ describe("TreeMap test", () => {
         const f2 = function(){console.log(1111); };
         treeMap.put(f2, 2);
         const values = treeMap.values();
-        expect(values).toEqual([2, 4]);
+        expect(values).toContain(2);
+        expect(values).toContain(4);
     });
     test("contains in TreeMap", () => {
         const treeMap = new TreeMap();

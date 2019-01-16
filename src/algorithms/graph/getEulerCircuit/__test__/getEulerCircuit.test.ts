@@ -7,7 +7,7 @@ describe("getEulerCircuit test", () => {
         const graph = new Graph<string>(false);
         expect(getEulerCircuit(graph)).toEqual([]);
 
-        const vertexs = Array.from({length: 10}, (item, index) => {
+        const vertexs = Array.from({length: 10}, ({}, index) => {
             return new GraphVertex((index + 1).toString());
         });
         vertexs.forEach(item => graph.addVertex(item));
