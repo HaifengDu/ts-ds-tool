@@ -14,9 +14,11 @@ describe("Stack test", () => {
         stack.push(1);
         stack.push(2);
         stack.push(3);
-        stack.pop();
+        const popValue1 = stack.pop();
+        expect(popValue1).toBe(3);
         expect(stack.peek()).toBe(2);
-        stack.pop();
+        const popValue2 = stack.pop();
+        expect(popValue2).toBe(2);
         expect(stack.peek()).toBe(1);
         stack.pop();
         expect(stack.isEmpty()).toEqual(true);
@@ -43,6 +45,6 @@ describe("Stack test", () => {
     test("toArray in stack", () => {
         const stack = new Stack();
         stack.push(1);
-        expect(stack.toArray()).toEqual([{next: null, value: 1}]);
+        expect(stack.toArray()).toEqual([1]);
     });
 });
