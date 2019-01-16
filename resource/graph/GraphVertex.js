@@ -3,6 +3,7 @@ import { toString } from "../util";
 import { GraphEdge } from "./GraphEdge";
 export class GraphVertex {
     constructor(node, property) {
+        this.property = property;
         this.indegree = 0;
         if (property) {
             const key = node[property];
@@ -22,6 +23,9 @@ export class GraphVertex {
     }
     get Node() {
         return this.node;
+    }
+    get Property() {
+        return this.property;
     }
     addUndirectedEdge(endVertex, weight) {
         if (!endVertex) {

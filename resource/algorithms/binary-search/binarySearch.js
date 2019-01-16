@@ -1,13 +1,18 @@
-function binarySearch(arr, target, key) {
+import { defaultEqualCompare } from "../../util";
+function binarySearch(arr, target) {
+    if (!arr || !arr.length) {
+        return -1;
+    }
     let start = 0;
     let end = arr.length - 1;
+    const compare = typeof target === "function" ? target : (a) => defaultEqualCompare(target, a);
     while (start <= end) {
         const mid = parseInt(((start + end) / 2).toString(), 10);
-        const value = key ? arr[mid][key] : arr[mid];
-        if (value === target) {
+        const compareResult = compare(arr[mid]);
+        if (compareResult === 0) {
             return mid;
         }
-        if (target > value) {
+        if (compareResult === 1) {
             start = mid + 1;
         }
         else {

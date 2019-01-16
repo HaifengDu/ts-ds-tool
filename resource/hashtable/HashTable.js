@@ -9,11 +9,11 @@ function defineHashNodeToString(node) {
     });
 }
 export class HashTable {
-    constructor(hashTableSize = HashTable.DEFAULT_TABLE_SIZE) {
-        this.buckets = Array(hashTableSize).fill(null).map(() => new LinkList());
+    constructor(size = HashTable.DEFAULT_TABLE_SIZE) {
+        this.buckets = Array(size).fill(null).map(() => new LinkList());
         this.count = 0;
         this.keys = {};
-        this.threshold = hashTableSize * HashTable.LOADFACTOR;
+        this.threshold = size * HashTable.LOADFACTOR;
     }
     static setDefaultTableSize(size) {
         this.DEFAULT_TABLE_SIZE = size;
@@ -71,7 +71,7 @@ export class HashTable {
         return false;
     }
     contains(key) {
-        return !!this.get(key);
+        return this.get(key) !== null;
     }
     getKeys() {
         return Object.keys(this.keys);

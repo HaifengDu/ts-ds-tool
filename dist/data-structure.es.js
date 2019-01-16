@@ -908,7 +908,7 @@ SkipList.prototype.insert = function insert (item) {
     this.count++;
     return this;
 };
-SkipList.prototype.deleteNode = function deleteNode (arg) {
+SkipList.prototype.remove = function remove (arg) {
         var this$1 = this;
 
     var node = this.findNode(arg);
@@ -1004,7 +1004,11 @@ var Stack = (function (Collection$$1) {
         return this.linkList.append(node);
     };
     Stack.prototype.pop = function pop () {
-        return this.linkList.pop();
+        var node = this.linkList.pop();
+        if (node) {
+            return node.Value;
+        }
+        return null;
     };
     Stack.prototype.peek = function peek () {
         if (!this.linkList.getTailNode()) {
@@ -1021,7 +1025,7 @@ var Stack = (function (Collection$$1) {
     Stack.prototype.__iterate = function __iterate (fn) {
         var temp = this.linkList.getHeadNode(), index = 0;
         while (temp) {
-            fn(temp, index);
+            fn(temp.Value, index);
             index++;
             temp = temp.Next;
         }
@@ -1160,6 +1164,7 @@ BinomialHeap.prototype.union = function union (heap) {
         next = curr.Next;
     }
     this.head = newHead;
+    return this;
 };
 BinomialHeap.prototype.link = function link (tomerge, frommerge) {
     frommerge.setNext(tomerge.Value.child);
@@ -1293,6 +1298,7 @@ Heap.prototype.peek = function peek () {
 Heap.prototype.add = function add (item) {
     this.container.push(item);
     this.heapifyUp();
+    return this;
 };
 Heap.prototype.remove = function remove (item) {
         var this$1 = this;
@@ -1314,7 +1320,7 @@ Heap.prototype.remove = function remove (item) {
             }
         }
     }
-    return this;
+    return numberOfItemsToRemove > 0;
 };
 Heap.prototype.toString = function toString () {
     return this.container.toString();
@@ -1516,7 +1522,7 @@ BasicBinaryTreeNode.prototype.getLeftHeight = function getLeftHeight () {
     }
     return this.left.getHeight() + 1;
 };
-BasicBinaryTreeNode.prototype.galanceFactor = function galanceFactor () {
+BasicBinaryTreeNode.prototype.balanceFactor = function balanceFactor () {
     return this.getLeftHeight() - this.getRightHeight();
 };
 BasicBinaryTreeNode.prototype.getSibling = function getSibling () {
@@ -1697,6 +1703,7 @@ var PriorityQueue = (function (Collection$$1) {
     };
     PriorityQueue.prototype.enqueue = function enqueue (value, priority) {
         this.heap.add(new PriorityQueueNode(value, priority));
+        return this;
     };
     PriorityQueue.prototype.dequeue = function dequeue () {
         return this.heap.poll();
@@ -1753,8 +1760,22 @@ function toString(value) {
     }
     return JSON.stringify(value);
 }
-function defaultCompare(a, b) {
+function defaultCompare(a, b, key) {
+    if (key) {
+        return a[key] >= b[key];
+    }
     return a >= b;
+}
+function defaultEqualCompare(a, b) {
+    if (a === b) {
+        return 0;
+    }
+    return a > b ? 1 : -1;
+}
+function swap(arr, i, j) {
+    var temp = arr[j];
+    arr[j] = arr[i];
+    arr[i] = temp;
 }
 function smi(i32) {
     return ((i32 >>> 1) & 0x40000000) | (i32 & 0xbfffffff);
@@ -1767,13 +1788,13 @@ function defineHashNodeToString(node) {
         },
     });
 }
-var HashTable = function HashTable(hashTableSize) {
-    if ( hashTableSize === void 0 ) hashTableSize = HashTable.DEFAULT_TABLE_SIZE;
+var HashTable = function HashTable(size) {
+    if ( size === void 0 ) size = HashTable.DEFAULT_TABLE_SIZE;
 
-    this.buckets = Array(hashTableSize).fill(null).map(function () { return new LinkList(); });
+    this.buckets = Array(size).fill(null).map(function () { return new LinkList(); });
     this.count = 0;
     this.keys = {};
-    this.threshold = hashTableSize * HashTable.LOADFACTOR;
+    this.threshold = size * HashTable.LOADFACTOR;
 };
 
 var prototypeAccessors$b = { Count: { configurable: true },TableSize: { configurable: true } };
@@ -1833,7 +1854,7 @@ HashTable.prototype.remove = function remove (key) {
     return false;
 };
 HashTable.prototype.contains = function contains (key) {
-    return !!this.get(key);
+    return this.get(key) !== null;
 };
 HashTable.prototype.getKeys = function getKeys () {
     return Object.keys(this.keys);
@@ -2127,70 +2148,6 @@ var ArraySet = (function (AbstractSet$$1) {
     ArraySet.prototype.diff = function diff (set) {
         return AbstractSet$$1.prototype.diff.call(this, set);
     };
-    ArraySet.prototype.combination = function combination (arr, shouldLength) {
-        var this$1 = this;
-
-        if (shouldLength === 1) {
-            return arr.map(function (item) { return [item]; });
-        }
-        var result = [];
-        arr.forEach(function (item, index) {
-            var smallComs = this$1.combination(arr.slice(index + 1), shouldLength - 1);
-            smallComs.forEach(function (current) {
-                result.push([item].concat(current));
-            });
-        });
-        return result;
-    };
-    ArraySet.prototype.comRepeat = function comRepeat (arr, shouldLength) {
-        var this$1 = this;
-
-        if (shouldLength === 1) {
-            return arr.map(function (item) { return [item]; });
-        }
-        var result = [];
-        arr.forEach(function (item, index) {
-            var smallComs = this$1.combination(arr.slice(index), shouldLength - 1);
-            smallComs.forEach(function (current) {
-                result.push([item].concat(current));
-            });
-        });
-        return result;
-    };
-    ArraySet.prototype.perAndCom = function perAndCom (arr, shouldLength) {
-        var this$1 = this;
-
-        if (shouldLength === 1) {
-            return arr.map(function (item) { return [item]; });
-        }
-        var result = [];
-        arr.forEach(function (item, index) {
-            var tempArr = [].concat(arr);
-            tempArr.splice(index, 1);
-            var smallComs = this$1.perAndCom(tempArr, shouldLength - 1);
-            smallComs.forEach(function (current) {
-                result.push([item].concat(current));
-            });
-        });
-        return result;
-    };
-    ArraySet.prototype.powerSet = function powerSet (arr, allPowerSets, currentPowerSets, position) {
-        var this$1 = this;
-        if ( allPowerSets === void 0 ) allPowerSets = [];
-        if ( currentPowerSets === void 0 ) currentPowerSets = [];
-        if ( position === void 0 ) position = 0;
-
-        if (position === 0) {
-            allPowerSets.push([]);
-        }
-        for (var i = position; i < arr.length; i++) {
-            currentPowerSets.push(arr[i]);
-            allPowerSets.push([].concat( currentPowerSets ));
-            this$1.powerSet(arr, allPowerSets, currentPowerSets, i + 1);
-            currentPowerSets.pop();
-        }
-        return allPowerSets;
-    };
 
     Object.defineProperties( ArraySet.prototype, prototypeAccessors );
 
@@ -2321,6 +2278,9 @@ BinarySearchTree.prototype.remove = function remove (value) {
     this.removeNode(node);
     return true;
 };
+BinarySearchTree.prototype.clear = function clear () {
+    this.Root = null;
+};
 BinarySearchTree.prototype.removeNode = function removeNode (node) {
     if (!node) {
         return false;
@@ -2419,9 +2379,6 @@ var RedBlackTree = (function (BinarySearchTree$$1) {
     if ( BinarySearchTree$$1 ) RedBlackTree.__proto__ = BinarySearchTree$$1;
     RedBlackTree.prototype = Object.create( BinarySearchTree$$1 && BinarySearchTree$$1.prototype );
     RedBlackTree.prototype.constructor = RedBlackTree;
-    RedBlackTree.prototype.clear = function clear () {
-        this.Root = null;
-    };
     RedBlackTree.prototype.insert = function insert (value) {
         if (value === null || value === undefined) {
             return;
@@ -2881,16 +2838,16 @@ var AvlTree = (function (BinarySearchTree$$1) {
         return true;
     };
     AvlTree.prototype.blanceNode = function blanceNode (node) {
-        if (node.galanceFactor() > 1) {
-            if (node.Left.galanceFactor() > 0) {
+        if (node.balanceFactor() > 1) {
+            if (node.Left.balanceFactor() > 0) {
                 this.rotateLeftLeft(node);
             }
             else {
                 this.rotateLeftRight(node);
             }
         }
-        else if (node.galanceFactor() < -1) {
-            if (node.Right.galanceFactor() > 0) {
+        else if (node.balanceFactor() < -1) {
+            if (node.Right.balanceFactor() > 0) {
                 this.rotateRightLeft(node);
             }
             else {
@@ -3225,16 +3182,20 @@ HuffmanTreeBuilder.bitStringToString = function bitStringToString (bitString) {
     return encodeArr.join("") + end;
 };
 
-function binarySearch(arr, target, key) {
+function binarySearch(arr, target) {
+    if (!arr || !arr.length) {
+        return -1;
+    }
     var start = 0;
     var end = arr.length - 1;
+    var compare = typeof target === "function" ? target : function (a) { return defaultEqualCompare(target, a); };
     while (start <= end) {
         var mid = parseInt(((start + end) / 2).toString(), 10);
-        var value = key ? arr[mid][key] : arr[mid];
-        if (value === target) {
+        var compareResult = compare(arr[mid]);
+        if (compareResult === 0) {
             return mid;
         }
-        if (target > value) {
+        if (compareResult === 1) {
             start = mid + 1;
         }
         else {
@@ -3564,175 +3525,134 @@ function minAndMax(arr, compare) {
     };
 }
 
-function tspBranchAndBound(graph) {
-    if (!graph) {
-        return null;
-    }
-    var queue = new PriorityQueue();
-    var vertices = graph.getVertexs();
-    if (vertices.length <= 1) {
-        return { cost: 0, path: [] };
-    }
-    var min = getDown(vertices);
-    queue.enqueue({ vertex: vertices[0], visitedKeys: [] }, -min);
-    var globalMin = getUp(vertices[0], vertices.length);
-    var globalMinPath;
-    var loop = function () {
-        var ref = queue.dequeue();
-        var node = ref.Value;
-        var cost = ref.Priority;
-        var currentVertex = node.vertex;
-        var visitedKeys = [].concat( node.visitedKeys );
-        visitedKeys.push(currentVertex.Key);
-        var visitedVertexSet = HashSet.fromArray(visitedKeys);
-        var isHasNoVisitedNeighbors = true;
-        currentVertex.getNeighbors().forEach(function (neighbor) {
-            if (visitedVertexSet.has(neighbor.Key)) {
-                return;
-            }
-            isHasNoVisitedNeighbors = false;
-            var currentCost = getLb(graph, visitedKeys, neighbor, vertices);
-            if (currentCost <= globalMin) {
-                queue.enqueue({ vertex: neighbor, visitedKeys: visitedKeys }, -currentCost);
-            }
-        });
-        if (isHasNoVisitedNeighbors && globalMin <= Math.abs(cost)) {
-            globalMin = Math.abs(cost);
-            globalMinPath = visitedKeys;
-        }
-    };
+var GraphEdge = function GraphEdge(startVertex, endVertex, weight) {
+    if ( weight === void 0 ) weight = 0;
 
-    while (!queue.isEmpty()) loop();
-    return { cost: globalMin, path: globalMinPath };
-}
-function getLb(graph, visitedKeys, currentVertex, vertices) {
-    var sumCost = 0;
-    for (var index = 0; index < visitedKeys.length - 1; index++) {
-        var currentVertex$1 = graph.findVertex(visitedKeys[index]);
-        sumCost += currentVertex$1.getEdge(visitedKeys[index + 1]).Weight;
-    }
-    var firstVertex = graph.findVertex(visitedKeys[0]);
-    var lastVertex = graph.findVertex(visitedKeys[visitedKeys.length - 1]);
-    sumCost += lastVertex.getEdge(currentVertex.Key).Weight;
-    sumCost *= 2;
-    var tempSet = HashSet.fromArray(visitedKeys);
-    tempSet.add(currentVertex.Key);
-    var firstOutMin = getMin(firstVertex, tempSet);
-    var lastOutMin = getMin(currentVertex, tempSet);
-    if (!lastOutMin) {
-        firstOutMin = lastOutMin = currentVertex.getEdge(visitedKeys[0]);
-    }
-    if (!firstOutMin) {
-        return Infinity;
-    }
-    sumCost += (firstOutMin.Weight + lastOutMin.Weight);
-    vertices.forEach(function (vertex) {
-        if (!tempSet.has(vertex.Key)) {
-            var minVertices = getTwoMin(linkListToArray(vertex.getEdges()));
-            sumCost += (minVertices.firstMin.Weight + minVertices.secondMin.Weight);
-        }
-    });
-    return sumCost / 2;
-}
-function linkListToArray(linkList) {
-    var head = linkList.getHeadNode();
-    var arr = [];
-    while (head) {
-        arr.push(head.Value);
-        head = head.Next;
-    }
-    return arr;
-}
-function getDown(vertices) {
-    return vertices.reduce(function (ori, vertex) {
-        var minVertices = getTwoMin(linkListToArray(vertex.getEdges()));
-        return ori + (minVertices.firstMin.Weight + minVertices.secondMin.Weight);
-    }, 0) / 2;
-}
-function getUp(vertex, length) {
-    var currentVertex = vertex;
-    var lastEdge;
-    var visitedSet = new HashSet(length);
-    visitedSet.add(currentVertex.Key);
-    var count = 1;
-    var sumWeight = 0;
-    while (count < length) {
-        lastEdge = getMin(currentVertex, visitedSet);
-        if (!lastEdge) {
-            throw new Error("the graph is not connected");
-        }
-        currentVertex = lastEdge.EndVertex;
-        visitedSet.add(currentVertex.Key);
-        sumWeight += lastEdge.Weight;
-        count++;
-    }
-    var circleEdge = currentVertex.getEdge(vertex.Key);
-    if (!circleEdge) {
-        throw new Error("the graph is not connected");
-    }
-    sumWeight += circleEdge.Weight;
-    visitedSet.clear();
-    return sumWeight;
-}
-function getMin(vertex, visitedSet) {
-    var head = vertex.getEdges().getHeadNode();
-    var min;
-    while (head) {
-        var vertex$1 = head.Value;
-        head = head.Next;
-        if (visitedSet.has(vertex$1.EndVertex.Key)) {
-            continue;
-        }
-        if (!min || min.Weight > vertex$1.Weight) {
-            min = vertex$1;
-        }
-    }
-    return min;
-}
-function getTwoMin(edges) {
-    if (!edges.length) {
-        throw new Error("the vertex hasn't edges");
-    }
-    var length = edges.length;
-    var firstMin, secondMin;
-    var beginIndex = 0;
-    if (length & 1) {
-        beginIndex = 1;
-        firstMin = secondMin = edges[0];
+    this.startVertex = startVertex;
+    this.endVertex = endVertex;
+    this.weight = weight;
+};
+
+var prototypeAccessors$i = { Weight: { configurable: true },EndVertex: { configurable: true },StartVertex: { configurable: true } };
+prototypeAccessors$i.Weight.get = function () {
+    return this.weight;
+};
+prototypeAccessors$i.EndVertex.get = function () {
+    return this.endVertex;
+};
+prototypeAccessors$i.StartVertex.get = function () {
+    return this.startVertex;
+};
+
+Object.defineProperties( GraphEdge.prototype, prototypeAccessors$i );
+
+var GraphVertex = function GraphVertex(node, property) {
+    this.property = property;
+    this.indegree = 0;
+    if (property) {
+        var key = node[property];
+        this.key = toString(key);
     }
     else {
-        beginIndex = 2;
-        firstMin = edges[1].Weight > edges[0].Weight ? edges[1] : edges[0];
-        secondMin = firstMin === edges[0] ? edges[1] : edges[0];
+        this.key = toString(node);
     }
-    var lt, gt;
-    for (var index = beginIndex; index < edges.length; index += 2) {
-        var first = edges[beginIndex];
-        var second = edges[beginIndex + 1];
-        if (first.Weight > second.Weight) {
-            lt = second;
-            gt = first;
+    this.node = node;
+    this.edges = new LinkList();
+};
+
+var prototypeAccessors$j = { InDegree: { configurable: true },Key: { configurable: true },Node: { configurable: true },Property: { configurable: true } };
+prototypeAccessors$j.InDegree.set = function (value) {
+    this.indegree = value;
+};
+prototypeAccessors$j.Key.get = function () {
+    return this.key;
+};
+prototypeAccessors$j.Node.get = function () {
+    return this.node;
+};
+prototypeAccessors$j.Property.get = function () {
+    return this.property;
+};
+GraphVertex.prototype.addUndirectedEdge = function addUndirectedEdge (endVertex, weight) {
+    if (!endVertex) {
+        throw new Error("end vertex is not empty");
+    }
+    var exist = this.edges.findNode(function (item) { return item.EndVertex.Key === endVertex.Key; });
+    if (exist) {
+        return false;
+    }
+    var edge = new GraphEdge(this, endVertex, weight);
+    this.edges.append(edge);
+    endVertex.addUndirectedEdge(this, weight);
+};
+GraphVertex.prototype.addEdge = function addEdge (endVertex, weight) {
+    if (!endVertex) {
+        throw new Error("end vertex is not empty");
+    }
+    var exist = this.edges.findNode(function (item) { return item.EndVertex.Key === endVertex.Key; });
+    if (exist) {
+        return false;
+    }
+    var edge = new GraphEdge(this, endVertex, weight);
+    this.edges.append(edge);
+    endVertex.InDegree = endVertex.getInDegree() + 1;
+    return true;
+};
+GraphVertex.prototype.getEdges = function getEdges () {
+    return this.edges;
+};
+GraphVertex.prototype.getEdge = function getEdge (endKey) {
+    var edge = this.edges.findNode(function (item) { return item.EndVertex.Key === endKey; });
+    if (edge) {
+        return edge.Value;
+    }
+    return null;
+};
+GraphVertex.prototype.deleteEdgeByKey = function deleteEdgeByKey (endKey, directed) {
+        if ( directed === void 0 ) directed = true;
+
+    var edge = this.edges.findNode(function (item) { return item.EndVertex.key === endKey; });
+    var success = this.edges.deleteNode(function (item) { return item.EndVertex.Key === endKey; });
+    if (success) {
+        if (directed) {
+            edge.Value.EndVertex.InDegree = edge.Value.EndVertex.getInDegree() - 1;
         }
         else {
-            lt = first;
-            gt = second;
-        }
-        if (lt.Weight > secondMin.Weight) {
-            continue;
-        }
-        if (gt.Weight <= firstMin.Weight) {
-            firstMin = lt;
-            secondMin = gt;
-        }
-        else {
-            secondMin = lt;
+            edge.Value.EndVertex.deleteEdgeByKey(edge.Value.StartVertex.key, true);
         }
     }
-    return {
-        firstMin: firstMin,
-        secondMin: secondMin,
-    };
-}
+    return success;
+};
+GraphVertex.prototype.deleteEdge = function deleteEdge (edge) {
+    var success = this.edges.deleteNode(edge);
+    if (success) {
+        edge.EndVertex.InDegree = edge.EndVertex.getInDegree() - 1;
+    }
+    return success;
+};
+GraphVertex.prototype.hasEdge = function hasEdge () {
+    return !!this.edges.Size;
+};
+GraphVertex.prototype.getInDegree = function getInDegree () {
+    return this.indegree;
+};
+GraphVertex.prototype.getOutDegree = function getOutDegree () {
+    return this.edges.Size;
+};
+GraphVertex.prototype.getDegree = function getDegree () {
+    return this.getInDegree() + this.getOutDegree();
+};
+GraphVertex.prototype.getNeighbors = function getNeighbors () {
+    var arr = [];
+    var node = this.edges.getHeadNode();
+    while (node) {
+        arr.push(node.Value.EndVertex);
+        node = node.Next;
+    }
+    return arr;
+};
+
+Object.defineProperties( GraphVertex.prototype, prototypeAccessors$j );
 
 var Graph = function Graph(directed) {
     if ( directed === void 0 ) directed = true;
@@ -3742,8 +3662,8 @@ var Graph = function Graph(directed) {
     this.edges = {};
 };
 
-var prototypeAccessors$i = { Directed: { configurable: true } };
-prototypeAccessors$i.Directed.get = function () {
+var prototypeAccessors$k = { Directed: { configurable: true } };
+prototypeAccessors$k.Directed.get = function () {
     return this.directed;
 };
 Graph.prototype.addVertex = function addVertex (vertex) {
@@ -3853,133 +3773,20 @@ Graph.prototype.toAdjacencyMatrix = function toAdjacencyMatrix () {
         keyIndexs: keyIndexs,
     };
 };
-
-Object.defineProperties( Graph.prototype, prototypeAccessors$i );
-
-var GraphEdge = function GraphEdge(startVertex, endVertex, weight) {
-    if ( weight === void 0 ) weight = 0;
-
-    this.startVertex = startVertex;
-    this.endVertex = endVertex;
-    this.weight = weight;
+Graph.prototype.clone = function clone () {
+    var vertices = this.getVertexs();
+    var edges = this.getEdges();
+    var graph = new Graph(this.directed);
+    vertices.forEach(function (item) { return graph.addVertex(new GraphVertex(item.Node, item.Property)); });
+    edges.forEach(function (item) {
+        var startVertex = graph.findVertex(item.StartVertex.Key);
+        var endVertex = graph.findVertex(item.EndVertex.Key);
+        graph.addEdge(startVertex, endVertex, item.Weight);
+    });
+    return graph;
 };
 
-var prototypeAccessors$j = { Weight: { configurable: true },EndVertex: { configurable: true },StartVertex: { configurable: true } };
-prototypeAccessors$j.Weight.get = function () {
-    return this.weight;
-};
-prototypeAccessors$j.EndVertex.get = function () {
-    return this.endVertex;
-};
-prototypeAccessors$j.StartVertex.get = function () {
-    return this.startVertex;
-};
-
-Object.defineProperties( GraphEdge.prototype, prototypeAccessors$j );
-
-var GraphVertex = function GraphVertex(node, property) {
-    this.indegree = 0;
-    if (property) {
-        var key = node[property];
-        this.key = toString(key);
-    }
-    else {
-        this.key = toString(node);
-    }
-    this.node = node;
-    this.edges = new LinkList();
-};
-
-var prototypeAccessors$k = { InDegree: { configurable: true },Key: { configurable: true },Node: { configurable: true } };
-prototypeAccessors$k.InDegree.set = function (value) {
-    this.indegree = value;
-};
-prototypeAccessors$k.Key.get = function () {
-    return this.key;
-};
-prototypeAccessors$k.Node.get = function () {
-    return this.node;
-};
-GraphVertex.prototype.addUndirectedEdge = function addUndirectedEdge (endVertex, weight) {
-    if (!endVertex) {
-        throw new Error("end vertex is not empty");
-    }
-    var exist = this.edges.findNode(function (item) { return item.EndVertex.Key === endVertex.Key; });
-    if (exist) {
-        return false;
-    }
-    var edge = new GraphEdge(this, endVertex, weight);
-    this.edges.append(edge);
-    endVertex.addUndirectedEdge(this, weight);
-};
-GraphVertex.prototype.addEdge = function addEdge (endVertex, weight) {
-    if (!endVertex) {
-        throw new Error("end vertex is not empty");
-    }
-    var exist = this.edges.findNode(function (item) { return item.EndVertex.Key === endVertex.Key; });
-    if (exist) {
-        return false;
-    }
-    var edge = new GraphEdge(this, endVertex, weight);
-    this.edges.append(edge);
-    endVertex.InDegree = endVertex.getInDegree() + 1;
-    return true;
-};
-GraphVertex.prototype.getEdges = function getEdges () {
-    return this.edges;
-};
-GraphVertex.prototype.getEdge = function getEdge (endKey) {
-    var edge = this.edges.findNode(function (item) { return item.EndVertex.Key === endKey; });
-    if (edge) {
-        return edge.Value;
-    }
-    return null;
-};
-GraphVertex.prototype.deleteEdgeByKey = function deleteEdgeByKey (endKey, directed) {
-        if ( directed === void 0 ) directed = true;
-
-    var edge = this.edges.findNode(function (item) { return item.EndVertex.key === endKey; });
-    var success = this.edges.deleteNode(function (item) { return item.EndVertex.Key === endKey; });
-    if (success) {
-        if (directed) {
-            edge.Value.EndVertex.InDegree = edge.Value.EndVertex.getInDegree() - 1;
-        }
-        else {
-            edge.Value.EndVertex.deleteEdgeByKey(edge.Value.StartVertex.key, true);
-        }
-    }
-    return success;
-};
-GraphVertex.prototype.deleteEdge = function deleteEdge (edge) {
-    var success = this.edges.deleteNode(edge);
-    if (success) {
-        edge.EndVertex.InDegree = edge.EndVertex.getInDegree() - 1;
-    }
-    return success;
-};
-GraphVertex.prototype.hasEdge = function hasEdge () {
-    return !!this.edges.Size;
-};
-GraphVertex.prototype.getInDegree = function getInDegree () {
-    return this.indegree;
-};
-GraphVertex.prototype.getOutDegree = function getOutDegree () {
-    return this.edges.Size;
-};
-GraphVertex.prototype.getDegree = function getDegree () {
-    return this.getInDegree() + this.getOutDegree();
-};
-GraphVertex.prototype.getNeighbors = function getNeighbors () {
-    var arr = [];
-    var node = this.edges.getHeadNode();
-    while (node) {
-        arr.push(node.Value.EndVertex);
-        node = node.Next;
-    }
-    return arr;
-};
-
-Object.defineProperties( GraphVertex.prototype, prototypeAccessors$k );
+Object.defineProperties( Graph.prototype, prototypeAccessors$k );
 
 function bellmanFord(graph, startVertex) {
     if (!startVertex) {
@@ -4542,6 +4349,398 @@ function tarjan(graph) {
     }
 }
 
+function tspBranchAndBound(graph) {
+    if (!graph) {
+        return null;
+    }
+    var queue = new PriorityQueue();
+    var vertices = graph.getVertexs();
+    if (vertices.length <= 1) {
+        return { cost: 0, path: [] };
+    }
+    var min = getDown(vertices);
+    queue.enqueue({ vertex: vertices[0], visitedKeys: [] }, -min);
+    var globalMin = getUp(vertices[0], vertices.length);
+    var globalMinPath;
+    var loop = function () {
+        var ref = queue.dequeue();
+        var node = ref.Value;
+        var cost = ref.Priority;
+        var currentVertex = node.vertex;
+        var visitedKeys = [].concat( node.visitedKeys );
+        visitedKeys.push(currentVertex.Key);
+        var visitedVertexSet = HashSet.fromArray(visitedKeys);
+        var isHasNoVisitedNeighbors = true;
+        currentVertex.getNeighbors().forEach(function (neighbor) {
+            if (visitedVertexSet.has(neighbor.Key)) {
+                return;
+            }
+            isHasNoVisitedNeighbors = false;
+            var currentCost = getLb(graph, visitedKeys, neighbor, vertices);
+            if (currentCost <= globalMin) {
+                queue.enqueue({ vertex: neighbor, visitedKeys: visitedKeys }, -currentCost);
+            }
+        });
+        if (isHasNoVisitedNeighbors && globalMin <= Math.abs(cost)) {
+            globalMin = Math.abs(cost);
+            globalMinPath = visitedKeys;
+        }
+    };
+
+    while (!queue.isEmpty()) loop();
+    return { cost: globalMin, path: globalMinPath };
+}
+function getLb(graph, visitedKeys, currentVertex, vertices) {
+    var sumCost = 0;
+    for (var index = 0; index < visitedKeys.length - 1; index++) {
+        var currentVertex$1 = graph.findVertex(visitedKeys[index]);
+        sumCost += currentVertex$1.getEdge(visitedKeys[index + 1]).Weight;
+    }
+    var firstVertex = graph.findVertex(visitedKeys[0]);
+    var lastVertex = graph.findVertex(visitedKeys[visitedKeys.length - 1]);
+    sumCost += lastVertex.getEdge(currentVertex.Key).Weight;
+    sumCost *= 2;
+    var tempSet = HashSet.fromArray(visitedKeys);
+    tempSet.add(currentVertex.Key);
+    var firstOutMin = getMin(firstVertex, tempSet);
+    var lastOutMin = getMin(currentVertex, tempSet);
+    if (!lastOutMin) {
+        firstOutMin = lastOutMin = currentVertex.getEdge(visitedKeys[0]);
+    }
+    if (!firstOutMin) {
+        return Infinity;
+    }
+    sumCost += (firstOutMin.Weight + lastOutMin.Weight);
+    vertices.forEach(function (vertex) {
+        if (!tempSet.has(vertex.Key)) {
+            var minVertices = getTwoMin(linkListToArray(vertex.getEdges()));
+            sumCost += (minVertices.firstMin.Weight + minVertices.secondMin.Weight);
+        }
+    });
+    return sumCost / 2;
+}
+function linkListToArray(linkList) {
+    var head = linkList.getHeadNode();
+    var arr = [];
+    while (head) {
+        arr.push(head.Value);
+        head = head.Next;
+    }
+    return arr;
+}
+function getDown(vertices) {
+    return vertices.reduce(function (ori, vertex) {
+        var minVertices = getTwoMin(linkListToArray(vertex.getEdges()));
+        return ori + (minVertices.firstMin.Weight + minVertices.secondMin.Weight);
+    }, 0) / 2;
+}
+function getUp(vertex, length) {
+    var currentVertex = vertex;
+    var lastEdge;
+    var visitedSet = new HashSet(length);
+    visitedSet.add(currentVertex.Key);
+    var count = 1;
+    var sumWeight = 0;
+    while (count < length) {
+        lastEdge = getMin(currentVertex, visitedSet);
+        if (!lastEdge) {
+            throw new Error("the graph is not connected");
+        }
+        currentVertex = lastEdge.EndVertex;
+        visitedSet.add(currentVertex.Key);
+        sumWeight += lastEdge.Weight;
+        count++;
+    }
+    var circleEdge = currentVertex.getEdge(vertex.Key);
+    if (!circleEdge) {
+        throw new Error("the graph is not connected");
+    }
+    sumWeight += circleEdge.Weight;
+    visitedSet.clear();
+    return sumWeight;
+}
+function getMin(vertex, visitedSet) {
+    var head = vertex.getEdges().getHeadNode();
+    var min;
+    while (head) {
+        var vertex$1 = head.Value;
+        head = head.Next;
+        if (visitedSet.has(vertex$1.EndVertex.Key)) {
+            continue;
+        }
+        if (!min || min.Weight > vertex$1.Weight) {
+            min = vertex$1;
+        }
+    }
+    return min;
+}
+function getTwoMin(edges) {
+    if (!edges.length) {
+        throw new Error("the vertex hasn't edges");
+    }
+    var length = edges.length;
+    var firstMin, secondMin;
+    var beginIndex = 0;
+    if (length & 1) {
+        beginIndex = 1;
+        firstMin = secondMin = edges[0];
+    }
+    else {
+        beginIndex = 2;
+        firstMin = edges[1].Weight > edges[0].Weight ? edges[1] : edges[0];
+        secondMin = firstMin === edges[0] ? edges[1] : edges[0];
+    }
+    var lt, gt;
+    for (var index = beginIndex; index < edges.length; index += 2) {
+        var first = edges[beginIndex];
+        var second = edges[beginIndex + 1];
+        if (first.Weight > second.Weight) {
+            lt = second;
+            gt = first;
+        }
+        else {
+            lt = first;
+            gt = second;
+        }
+        if (lt.Weight > secondMin.Weight) {
+            continue;
+        }
+        if (gt.Weight <= firstMin.Weight) {
+            firstMin = lt;
+            secondMin = gt;
+        }
+        else {
+            secondMin = lt;
+        }
+    }
+    return {
+        firstMin: firstMin,
+        secondMin: secondMin,
+    };
+}
+
+function bubbleSort(arr, key) {
+    if (!arr || !arr.length) {
+        return arr;
+    }
+    var len = arr.length;
+    for (var i = 0; i < len - 1; i++) {
+        for (var j = 0; j < len - 1 - i; j++) {
+            var condition = key ? arr[j][key] > arr[j + 1][key] : arr[j] > arr[j + 1];
+            if (condition) {
+                swap(arr, j, j + 1);
+            }
+        }
+    }
+    return arr;
+}
+
+function insertSort(arr, key) {
+    if (!arr || !arr.length) {
+        return arr;
+    }
+    var len = arr.length;
+    for (var i = 1; i < len; i++) {
+        var j = i;
+        while (j > 0) {
+            var current = arr[j], prev = arr[j - 1];
+            var condition = key ? current[key] < prev[key] : current < prev;
+            if (condition)
+                { swap(arr, j, j - 1); }
+            j--;
+        }
+    }
+    return arr;
+}
+
+function mergeSort(arr, key) {
+    if (!arr || !arr.length) {
+        return arr;
+    }
+    var len = arr.length;
+    if (len < 2) {
+        return arr;
+    }
+    function merge(left, right, key) {
+        var result = [];
+        while (left.length > 0 && right.length > 0) {
+            var leftLassThanEqualRight = key ? left[0][key] <= right[0][key] : left[0] <= right[0];
+            if (leftLassThanEqualRight) {
+                result.push(left.shift());
+            }
+            else {
+                result.push(right.shift());
+            }
+        }
+        while (left.length) {
+            result.push(left.shift());
+        }
+        while (right.length) {
+            result.push(right.shift());
+        }
+        return result;
+    }
+    var middle = Math.floor(len / 2), left = arr.slice(0, middle), right = arr.slice(middle);
+    return merge(this.mergeSort(left, key), this.mergeSort(right, key), key);
+}
+
+function quickSort(arr, key) {
+    sort(arr, 0, arr.length - 1);
+    return arr;
+    function sort(array, first, last) {
+        if (first >= last) {
+            return;
+        }
+        var low = first;
+        var high = last;
+        var middleValue = array[first];
+        while (first < last) {
+            while (first < last && defaultCompare(array[last], middleValue, key)) {
+                --last;
+            }
+            array[first] = array[last];
+            while (first < last && !defaultCompare(array[first], middleValue, key)) {
+                ++first;
+            }
+            array[last] = array[first];
+        }
+        array[first] = middleValue;
+        sort(array, low, first - 1);
+        sort(array, first + 1, high);
+    }
+}
+
+function selectionSort(arr, key) {
+    if (!arr || !arr.length) {
+        return arr;
+    }
+    var len = arr.length;
+    var minIndex;
+    for (var i = 0; i < len; i++) {
+        minIndex = i;
+        for (var j = i; j < len; j++) {
+            var start = arr[minIndex], current = arr[j];
+            var condition = key ? start[key] > current[key] : start > current;
+            if (condition) {
+                minIndex = j;
+            }
+        }
+        swap(arr, i, minIndex);
+    }
+    return arr;
+}
+
+function shellSort(arr, key) {
+    if (!arr || !arr.length) {
+        return arr;
+    }
+    var len = arr.length;
+    var i = 1;
+    while (Math.floor(len / (2 * i))) {
+        var quotient = Math.floor(len / (2 * i));
+        for (var j = 0; j < 2 * i; j++) {
+            var currentIndex = j;
+            while (currentIndex + quotient < len) {
+                var current = arr[currentIndex], quotientNext = arr[currentIndex + quotient];
+                var condition = key ? quotientNext[key] < current[key] : quotientNext < current;
+                if (condition)
+                    { swap(arr, currentIndex, currentIndex + quotient); }
+                currentIndex += quotient;
+            }
+        }
+        i++;
+    }
+}
+
+function combination(arr, shouldLength) {
+    if (shouldLength === 1) {
+        return arr.map(function (item) { return [item]; });
+    }
+    var result = [];
+    arr.forEach(function (item, index) {
+        var smallComs = combination(arr.slice(index + 1), shouldLength - 1);
+        smallComs.forEach(function (current) {
+            result.push([item].concat(current));
+        });
+    });
+    return result;
+}
+
+function combinationRepeat(arr, shouldLength) {
+    if (shouldLength === 1) {
+        return arr.map(function (item) { return [item]; });
+    }
+    var result = [];
+    arr.forEach(function (item, index) {
+        var smallComs = combination(arr.slice(index), shouldLength - 1);
+        smallComs.forEach(function (current) {
+            result.push([item].concat(current));
+        });
+    });
+    return result;
+}
+
+function gcd(num1, num2) {
+    if (num2 === 0) {
+        return num1;
+    }
+    return gcd(num2, num1 % num2);
+}
+
+function lcm(num1, num2) {
+    var gcdResult = gcd(num1, num2);
+    return gcdResult * (num1 / gcdResult) * (num2 / gcdResult);
+}
+
+function permutation(arr, shouldLength) {
+    if (shouldLength === 1) {
+        return arr.map(function (item) { return [item]; });
+    }
+    var result = [];
+    arr.forEach(function (item, index) {
+        var tempArr = [].concat(arr);
+        tempArr.splice(index, 1);
+        var smallComs = permutation(tempArr, shouldLength - 1);
+        smallComs.forEach(function (current) {
+            result.push([item].concat(current));
+        });
+    });
+    return result;
+}
+
+function powerSet(arr, allPowerSets, currentPowerSets, position) {
+    if ( allPowerSets === void 0 ) allPowerSets = [];
+    if ( currentPowerSets === void 0 ) currentPowerSets = [];
+    if ( position === void 0 ) position = 0;
+
+    if (position === 0) {
+        allPowerSets.push([]);
+    }
+    for (var i = position; i < arr.length; i++) {
+        currentPowerSets.push(arr[i]);
+        allPowerSets.push([].concat( currentPowerSets ));
+        powerSet(arr, allPowerSets, currentPowerSets, i + 1);
+        currentPowerSets.pop();
+    }
+    return allPowerSets;
+}
+
+var sort = {
+    bubbleSort: bubbleSort,
+    insertSort: insertSort,
+    mergeSort: mergeSort,
+    quickSort: quickSort,
+    selectionSort: selectionSort,
+    shellSort: shellSort,
+};
+var math = {
+    combination: combination,
+    combinationRepeat: combinationRepeat,
+    permutation: permutation,
+    powerSet: powerSet,
+    gcd: gcd,
+    lcm: lcm,
+};
 var index = {
     LinkList: LinkList,
     DoubleLinkList: DoubleLinkList,
@@ -4579,7 +4778,6 @@ var index = {
     dpMaxSubArray: dpMaxSubArray,
     maxSubArray: maxSubArray,
     minAndMax: minAndMax,
-    tspBranchAndBound: tspBranchAndBound,
     Graph: Graph,
     GraphVertex: GraphVertex,
     GraphEdge: GraphEdge,
@@ -4592,10 +4790,13 @@ var index = {
     tarjan: tarjan,
     prim: prim,
     kruskal: kruskal,
+    tspBranchAndBound: tspBranchAndBound,
     getEulerCircuit: getEulerCircuit,
     isDirectedEulerGraph: isDirectedEulerGraph,
     isUndirectedEulerGraph: isUndirectedEulerGraph,
+    sort: sort,
+    math: math,
 };
 
 export default index;
-export { LinkList, DoubleLinkList, CycleLinkList, DoubleLinkListCycle as DoubleCycleLinkList, Stack, Queue, SkipList, Heap, MaxHeap, MinHeap, BinomialHeap, LeftistTree, PriorityQueue, ArraySet, HashTable, HashMap, HashSet, TreeMap, TreeSet, BasicBinaryTree, BasicBinaryTreeNode, BinarySearchTree, AvlTree, RedBlackTree, FenwickTree, HuffmanTree, HuffmanTreeBuilder, binarySearch, kmp, lcs, lcstr, lcstropt, levenshteinDistance, dpMaxSubArray, maxSubArray, minAndMax, tspBranchAndBound, Graph, GraphVertex, GraphEdge, breadthFirstSearch, depthFirstSearch, dijkstra, bellmanFord, floydWarshall, isconnected, tarjan, prim, kruskal, getEulerCircuit, isDirectedEulerGraph, isUndirectedEulerGraph };
+export { LinkList, DoubleLinkList, CycleLinkList, DoubleLinkListCycle as DoubleCycleLinkList, Stack, Queue, SkipList, Heap, MaxHeap, MinHeap, BinomialHeap, LeftistTree, PriorityQueue, ArraySet, HashTable, HashMap, HashSet, TreeMap, TreeSet, BasicBinaryTree, BasicBinaryTreeNode, BinarySearchTree, AvlTree, RedBlackTree, FenwickTree, HuffmanTree, HuffmanTreeBuilder, binarySearch, kmp, lcs, lcstr, lcstropt, levenshteinDistance, dpMaxSubArray, maxSubArray, minAndMax, Graph, GraphVertex, GraphEdge, breadthFirstSearch, depthFirstSearch, dijkstra, bellmanFord, floydWarshall, isconnected, tarjan, prim, kruskal, tspBranchAndBound, getEulerCircuit, isDirectedEulerGraph, isUndirectedEulerGraph, sort, math };

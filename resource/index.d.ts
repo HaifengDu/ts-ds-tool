@@ -33,7 +33,6 @@ import { levenshteinDistance } from "./algorithms/levenshtein-distance/levenshte
 import { dpMaxSubArray } from "./algorithms/max-sub-array/dpMaxSubArray";
 import { maxSubArray } from "./algorithms/max-sub-array/maxSubArray";
 import { minAndMax } from "./algorithms/min-and-max/minAndMax";
-import { tspBranchAndBound } from "./algorithms/tsp/tspBranchAndBound";
 import { Graph } from "./graph/Graph";
 import { GraphEdge } from "./graph/GraphEdge";
 import { GraphVertex } from "./graph/GraphVertex";
@@ -48,6 +47,35 @@ import { isDirectedEulerGraph, isUndirectedEulerGraph } from "./algorithms/graph
 import { kruskal } from "./algorithms/graph/kruskal/kruskal";
 import { prim } from "./algorithms/graph/prim/prim";
 import { tarjan } from "./algorithms/graph/tarjan/tarjan";
+import { tspBranchAndBound } from "./algorithms/graph/tsp/tspBranchAndBound";
+import { bubbleSort } from "./algorithms/sort/bubbleSort/bubbleSort";
+import { insertSort } from "./algorithms/sort/insertSort/insertSort";
+import { mergeSort } from "./algorithms/sort/mergeSort/mergeSort";
+import { quickSort } from "./algorithms/sort/quickSort/quickSort";
+import { selectionSort } from "./algorithms/sort/selectionSort/selectionSort";
+import { shellSort } from "./algorithms/sort/shellSort/shellSort";
+import { combination } from "./algorithms/math/combination/combination";
+import { combinationRepeat } from "./algorithms/math/combinationRepeat/combinationRepeat";
+import { gcd } from "./algorithms/math/gcd/gcd";
+import { lcm } from "./algorithms/math/lcm/lcm";
+import { permutation } from "./algorithms/math/permutation/permutation";
+import { powerSet } from "./algorithms/math/powerSet/powerSet";
+declare const sort: {
+    bubbleSort: typeof bubbleSort;
+    insertSort: typeof insertSort;
+    mergeSort: typeof mergeSort;
+    quickSort: typeof quickSort;
+    selectionSort: typeof selectionSort;
+    shellSort: typeof shellSort;
+};
+declare const math: {
+    combination: typeof combination;
+    combinationRepeat: typeof combinationRepeat;
+    permutation: typeof permutation;
+    powerSet: typeof powerSet;
+    gcd: typeof gcd;
+    lcm: typeof lcm;
+};
 declare const _default: {
     LinkList: typeof LinkList;
     DoubleLinkList: typeof DoubleLinkList;
@@ -85,7 +113,6 @@ declare const _default: {
     dpMaxSubArray: typeof dpMaxSubArray;
     maxSubArray: typeof maxSubArray;
     minAndMax: typeof minAndMax;
-    tspBranchAndBound: typeof tspBranchAndBound;
     Graph: typeof Graph;
     GraphVertex: typeof GraphVertex;
     GraphEdge: typeof GraphEdge;
@@ -98,9 +125,26 @@ declare const _default: {
     tarjan: typeof tarjan;
     prim: typeof prim;
     kruskal: typeof kruskal;
+    tspBranchAndBound: typeof tspBranchAndBound;
     getEulerCircuit: typeof getEulerCircuit;
     isDirectedEulerGraph: typeof isDirectedEulerGraph;
     isUndirectedEulerGraph: typeof isUndirectedEulerGraph;
+    sort: {
+        bubbleSort: typeof bubbleSort;
+        insertSort: typeof insertSort;
+        mergeSort: typeof mergeSort;
+        quickSort: typeof quickSort;
+        selectionSort: typeof selectionSort;
+        shellSort: typeof shellSort;
+    };
+    math: {
+        combination: typeof combination;
+        combinationRepeat: typeof combinationRepeat;
+        permutation: typeof permutation;
+        powerSet: typeof powerSet;
+        gcd: typeof gcd;
+        lcm: typeof lcm;
+    };
 };
 export default _default;
-export { LinkList, DoubleLinkList, CycleLinkList, DoubleCycleLinkList, Stack, Queue, SkipList, Heap, MaxHeap, MinHeap, BinomialHeap, LeftistTree, PriorityQueue, ArraySet, HashTable, HashMap, HashSet, TreeMap, TreeSet, BasicBinaryTree, BasicBinaryTreeNode, BinarySearchTree, AvlTree, RedBlackTree, FenwickTree, HuffmanTree, HuffmanTreeBuilder, binarySearch, kmp, lcs, lcstr, lcstropt, levenshteinDistance, dpMaxSubArray, maxSubArray, minAndMax, tspBranchAndBound, Graph, GraphVertex, GraphEdge, breadthFirstSearch, depthFirstSearch, dijkstra, bellmanFord, floydWarshall, isconnected, tarjan, prim, kruskal, getEulerCircuit, isDirectedEulerGraph, isUndirectedEulerGraph, };
+export { LinkList, DoubleLinkList, CycleLinkList, DoubleCycleLinkList, Stack, Queue, SkipList, Heap, MaxHeap, MinHeap, BinomialHeap, LeftistTree, PriorityQueue, ArraySet, HashTable, HashMap, HashSet, TreeMap, TreeSet, BasicBinaryTree, BasicBinaryTreeNode, BinarySearchTree, AvlTree, RedBlackTree, FenwickTree, HuffmanTree, HuffmanTreeBuilder, binarySearch, kmp, lcs, lcstr, lcstropt, levenshteinDistance, dpMaxSubArray, maxSubArray, minAndMax, Graph, GraphVertex, GraphEdge, breadthFirstSearch, depthFirstSearch, dijkstra, bellmanFord, floydWarshall, isconnected, tarjan, prim, kruskal, tspBranchAndBound, getEulerCircuit, isDirectedEulerGraph, isUndirectedEulerGraph, sort, math, };

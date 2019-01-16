@@ -54,7 +54,7 @@ export class SkipList {
         this.count++;
         return this;
     }
-    deleteNode(arg) {
+    remove(arg) {
         const node = this.findNode(arg);
         if (node) {
             const height = node.getHeight();

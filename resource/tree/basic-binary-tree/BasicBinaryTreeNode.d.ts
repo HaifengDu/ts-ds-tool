@@ -14,7 +14,7 @@ export declare class BasicBinaryTreeNode<T> {
     getHeight(): number;
     getRightHeight(): number;
     getLeftHeight(): number;
-    galanceFactor(): number;
+    balanceFactor(): number;
     getSibling(): BasicBinaryTreeNode<T>;
     getUncle(): BasicBinaryTreeNode<T>;
     toString(): string;

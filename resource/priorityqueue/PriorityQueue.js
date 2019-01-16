@@ -25,6 +25,7 @@ export class PriorityQueue extends Collection {
     }
     enqueue(value, priority) {
         this.heap.add(new PriorityQueueNode(value, priority));
+        return this;
     }
     dequeue() {
         return this.heap.poll();

@@ -57,7 +57,7 @@ export class BasicBinaryTreeNode {
         }
         return this.left.getHeight() + 1;
     }
-    galanceFactor() {
+    balanceFactor() {
         return this.getLeftHeight() - this.getRightHeight();
     }
     getSibling() {

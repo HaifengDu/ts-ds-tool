@@ -12,8 +12,8 @@ export declare class DoubleLinkListCycle<T> implements IEnumerable<T> {
     private emptyList;
     shift(): DoubleLinkListNode<T>;
     pop(): DoubleLinkListNode<T>;
-    deleteNode(arg: ((item: T) => boolean) | T): number[];
-    findNode(arg: ((item: T) => boolean) | T): DoubleLinkListNode<T>;
+    deleteNode(arg: any): number[];
+    findNode(arg: any): DoubleLinkListNode<T>;
     getHeadNode(): DoubleLinkListNode<T>;
     getTailNode(): DoubleLinkListNode<T>;
     isEmpty(): boolean;

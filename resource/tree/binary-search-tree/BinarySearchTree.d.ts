@@ -6,6 +6,7 @@ export declare class BinarySearchTree<T = number> {
     Root: BinarySearchTreeNode<T>;
     insert(value: T): BinarySearchTreeNode<T>;
     remove(value: T): boolean;
+    clear(): void;
     protected removeNode(node: BinarySearchTreeNode<T>): false | {
         successorChild: BinarySearchTreeNode<T>;
         nodeSuccessor: BinarySearchTreeNode<T>;

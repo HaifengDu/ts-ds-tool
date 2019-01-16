@@ -10,8 +10,8 @@ export declare class DoubleLinkList<T> extends Collection<DoubleLinkNode<T>> {
     prepend(value: T): DoubleLinkNode<T>;
     private emptyList;
     clear(): void;
-    deleteNode(arg: ((item: T) => boolean) | T): boolean;
-    findNode(arg: ((item: T) => boolean) | T): DoubleLinkNode<T>;
+    deleteNode(arg: any): boolean;
+    findNode(arg: any): DoubleLinkNode<T>;
     insertAfter(value: T, oriNode: DoubleLinkNode<T>): boolean;
     getHeadNode(): DoubleLinkNode<T>;
     getTailNode(): DoubleLinkNode<T>;

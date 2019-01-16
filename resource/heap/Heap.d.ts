@@ -15,12 +15,12 @@ export declare abstract class Heap<T> {
     private heapifyDown;
     poll(): T;
     peek(): T;
-    add(item: T): void;
-    remove(item: ((item: T) => boolean) | T): this;
+    add(item: T): this;
+    remove(item: ((item: T) => boolean) | T): boolean;
     toString(): string;
     isEmpty(): boolean;
-    find(arg: ((item: T) => boolean) | T): T;
-    findAll(arg: ((item: T) => boolean) | T): T[];
+    find(arg: any): T;
+    findAll(arg: any): T[];
     clear(): void;
     entries(): T[];
     private findAllIndex;

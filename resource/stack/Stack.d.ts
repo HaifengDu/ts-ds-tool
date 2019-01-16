@@ -1,14 +1,13 @@
 import { Collection } from "../Collection";
-import { LinkNode } from "../linklist/LinkNode";
-export declare class Stack<T> extends Collection<LinkNode<T>> {
+export declare class Stack<T> extends Collection<T> {
     private linkList;
     constructor();
-    push(node: T): LinkNode<T>;
-    pop(): LinkNode<T>;
+    push(node: T): import("../linklist/LinkNode").LinkNode<T>;
+    pop(): T;
     peek(): T;
     isEmpty(): boolean;
     toString(): string;
-    protected __iterate(fn: (item: LinkNode<T>, index: number) => void): void;
-    toArray(): LinkNode<T>[];
+    protected __iterate(fn: (item: T, index: number) => void): void;
+    toArray(): T[];
 }
 export default Stack;

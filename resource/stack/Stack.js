@@ -9,7 +9,11 @@ export class Stack extends Collection {
         return this.linkList.append(node);
     }
     pop() {
-        return this.linkList.pop();
+        const node = this.linkList.pop();
+        if (node) {
+            return node.Value;
+        }
+        return null;
     }
     peek() {
         if (!this.linkList.getTailNode()) {
@@ -26,7 +30,7 @@ export class Stack extends Collection {
     __iterate(fn) {
         let temp = this.linkList.getHeadNode(), index = 0;
         while (temp) {
-            fn(temp, index);
+            fn(temp.Value, index);
             index++;
             temp = temp.Next;
         }

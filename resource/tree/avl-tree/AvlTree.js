@@ -37,16 +37,16 @@ export class AvlTree extends BinarySearchTree {
         return true;
     }
     blanceNode(node) {
-        if (node.galanceFactor() > 1) {
-            if (node.Left.galanceFactor() > 0) {
+        if (node.balanceFactor() > 1) {
+            if (node.Left.balanceFactor() > 0) {
                 this.rotateLeftLeft(node);
             }
             else {
                 this.rotateLeftRight(node);
             }
         }
-        else if (node.galanceFactor() < -1) {
-            if (node.Right.galanceFactor() > 0) {
+        else if (node.balanceFactor() < -1) {
+            if (node.Right.balanceFactor() > 0) {
                 this.rotateRightLeft(node);
             }
             else {

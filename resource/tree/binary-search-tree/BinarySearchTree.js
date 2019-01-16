@@ -28,6 +28,9 @@ export class BinarySearchTree {
         this.removeNode(node);
         return true;
     }
+    clear() {
+        this.Root = null;
+    }
     removeNode(node) {
         if (!node) {
             return false;

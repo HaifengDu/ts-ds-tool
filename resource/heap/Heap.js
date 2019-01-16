@@ -83,6 +83,7 @@ export class Heap {
     add(item) {
         this.container.push(item);
         this.heapifyUp();
+        return this;
     }
     remove(item) {
         const numberOfItemsToRemove = this.findAll(item).length;
@@ -102,7 +103,7 @@ export class Heap {
                 }
             }
         }
-        return this;
+        return numberOfItemsToRemove > 0;
     }
     toString() {
         return this.container.toString();

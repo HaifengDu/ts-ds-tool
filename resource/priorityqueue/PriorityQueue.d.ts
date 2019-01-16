@@ -11,7 +11,7 @@ export declare class PriorityQueue<T> extends Collection<T> {
     private heap;
     constructor();
     peek(): PriorityQueueNode<T>;
-    enqueue(value: T, priority: number): void;
+    enqueue(value: T, priority: number): this;
     dequeue(): PriorityQueueNode<T>;
     changePriority(value: T, priority: number): void;
     has(value: T): boolean;

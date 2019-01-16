@@ -1,6 +1,7 @@
 import LinkList from "../linklist/LinkList";
 import { GraphEdge } from "./GraphEdge";
 export declare class GraphVertex<T = string> {
+    private property?;
     private node;
     private key;
     private edges;
@@ -8,6 +9,7 @@ export declare class GraphVertex<T = string> {
     InDegree: number;
     readonly Key: string;
     readonly Node: T;
+    readonly Property: keyof T;
     constructor(node: T, property?: keyof T);
     addUndirectedEdge(endVertex: GraphVertex<T>, weight?: number): boolean;
     addEdge(endVertex: GraphVertex<T>, weight?: number): boolean;

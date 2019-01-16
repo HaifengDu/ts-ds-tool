@@ -119,6 +119,7 @@ export class BinomialHeap {
             next = curr.Next;
         }
         this.head = newHead;
+        return this;
     }
     link(tomerge, frommerge) {
         frommerge.setNext(tomerge.Value.child);

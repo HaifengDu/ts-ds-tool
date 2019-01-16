@@ -24,4 +24,5 @@ export declare class Graph<T = string> {
             [index: string]: number;
         };
     };
+    clone(): Graph<T>;
 }

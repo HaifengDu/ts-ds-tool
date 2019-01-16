@@ -8,7 +8,7 @@ export declare class HashTable<T> {
     static setDefaultTableSize(size: number): void;
     readonly Count: number;
     readonly TableSize: number;
-    constructor(hashTableSize?: number);
+    constructor(size?: number);
     put(key: any, value: T): this;
     get(key: any): T;
     remove(key: any): boolean;

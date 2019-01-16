@@ -21,9 +21,6 @@ export class RedBlackTree extends BinarySearchTree {
     constructor(compareKey) {
         super(compareKey);
     }
-    clear() {
-        this.Root = null;
-    }
     insert(value) {
         if (value === null || value === undefined) {
             return;

@@ -15,8 +15,17 @@ export function toString(value) {
     }
     return JSON.stringify(value);
 }
-export function defaultCompare(a, b) {
+export function defaultCompare(a, b, key) {
+    if (key) {
+        return a[key] >= b[key];
+    }
     return a >= b;
+}
+export function defaultEqualCompare(a, b) {
+    if (a === b) {
+        return 0;
+    }
+    return a > b ? 1 : -1;
 }
 export function random(begin, end) {
     return Math.round(Math.random() * (end - begin) + begin);

@@ -12,8 +12,4 @@ export declare class ArraySet<T> extends AbstractSet<T> {
     union(set: AbstractSet<T>): Array<T>;
     intersect(set: AbstractSet<T>): Array<T>;
     diff(set: AbstractSet<T>): Array<T>;
-    combination(arr: Array<any>, shouldLength: number): Array<Array<any>>;
-    comRepeat(arr: Array<any>, shouldLength: number): Array<Array<any>>;
-    perAndCom(arr: Array<any>, shouldLength: number): Array<Array<any>>;
-    powerSet(arr: Array<any>, allPowerSets?: Array<any>, currentPowerSets?: Array<any>, position?: number): any[];
 }

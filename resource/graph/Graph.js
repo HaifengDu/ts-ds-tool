@@ -1,3 +1,4 @@
+import { GraphVertex } from "./GraphVertex";
 export class Graph {
     constructor(directed = true) {
         this.directed = directed;
@@ -103,5 +104,17 @@ export class Graph {
             matrix,
             keyIndexs,
         };
+    }
+    clone() {
+        const vertices = this.getVertexs();
+        const edges = this.getEdges();
+        const graph = new Graph(this.directed);
+        vertices.forEach(item => graph.addVertex(new GraphVertex(item.Node, item.Property)));
+        edges.forEach(item => {
+            const startVertex = graph.findVertex(item.StartVertex.Key);
+            const endVertex = graph.findVertex(item.EndVertex.Key);
+            graph.addEdge(startVertex, endVertex, item.Weight);
+        });
+        return graph;
     }
 }

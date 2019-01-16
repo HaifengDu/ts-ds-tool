@@ -12,8 +12,8 @@ export declare class LinkList<T> extends Collection<LinkNode<T>> {
     prepend(value: T): LinkNode<T>;
     private emptyList;
     clear(): void;
-    deleteNode(arg: ((item: T) => boolean) | T): boolean;
-    findNode(arg: ((item: T) => boolean) | T): LinkNode<T>;
+    deleteNode(arg: any): boolean;
+    findNode(arg: any): LinkNode<T>;
     insertAfter(value: T, oriNode: LinkNode<T>): boolean;
     getHeadNode(): LinkNode<T>;
     getTailNode(): LinkNode<T>;
