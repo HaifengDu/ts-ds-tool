@@ -57,8 +57,6 @@ Use the script tags in the browser to directly import the file and use the globa
 * levenshtein distance &#10004;
 * max sub array &#10004;
 * min and max &#10004;
-* greatest common divisor &#10004;
-* minimum common multiple &#10004;
 * bellman ford &#10004;
 * dijkstra &#10004;
 * floyd warshall &#10004;
@@ -72,11 +70,26 @@ Use the script tags in the browser to directly import the file and use the globa
 * tarjan &#10004;
 * topo-sort &#10004;
 * tsp branch and bound &#10004;
+* gcd &#10004;
+* lcm &#10004;
+* combination &#10004;
+* combination repeat &#10004;
+* permutation &#10004;
+* power set &#10004;
+* bubble sort &#10004;
+* insert sort &#10004;
+* merge sort &#10004;
+* quick sort repeat &#10004;
+* selection sort &#10004;
+* shell sort &#10004;
 
 ## Import
 ``` js
 import { Queue } from 'ts-ds-tool';
 import { breadthFirstSearch } from 'ts-ds-tool';
+
+import { sort } from 'ts-ds-tool';
+import { math } from 'ts-ds-tool';
 ```
 
 ## Run:
