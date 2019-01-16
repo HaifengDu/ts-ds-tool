@@ -90,6 +90,8 @@ import { breadthFirstSearch } from 'ts-ds-tool';
 
 import { sort } from 'ts-ds-tool';
 import { math } from 'ts-ds-tool';
+sort.quickSort([3,2,1]);
+math.gcd(9, 6);
 ```
 
 ## Run:
