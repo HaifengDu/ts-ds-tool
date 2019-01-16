@@ -1,7 +1,6 @@
 import { Collection } from "../Collection";
 import LinkList from "../linklist/LinkList";
-import { LinkNode } from "../linklist/LinkNode";
-export class Stack<T> extends Collection<LinkNode<T>> {
+export class Stack<T> extends Collection<T> {
     private linkList: LinkList<T>;
     constructor(){
         super();
@@ -20,7 +19,11 @@ export class Stack<T> extends Collection<LinkNode<T>> {
      *
      */
     public pop(){
-        return this.linkList.pop();
+        const node = this.linkList.pop();
+        if (node) {
+            return node.Value;
+        }
+        return null;
     }
 
     /**
@@ -44,11 +47,11 @@ export class Stack<T> extends Collection<LinkNode<T>> {
         return this.linkList.toString();
     }
 
-    protected __iterate(fn: (item: LinkNode<T>, index: number) => void): void {
+    protected __iterate(fn: (item: T, index: number) => void): void {
         let temp = this.linkList.getHeadNode(),
             index = 0;
         while (temp){
-            fn(temp, index);
+            fn(temp.Value, index);
             index++;
             temp = temp.Next;
         }
