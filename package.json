@@ -8,7 +8,7 @@
     "definition": "resource/index.d.ts"
   },
   "scripts": {
-    "build": "run-s build:*",
+    "build": "run-s tsc build:*",
     "build:dist": "run-s clean:dist bundle:dist bundle:es",
     "clean:dist": "rimraf dist",
     "bundle:dist": "rollup -c ./script/rollup-config.js",
