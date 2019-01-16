@@ -1,5 +1,5 @@
-# ts_ds_tool
-`ts_ds_tool` a tool library of Data Structure and Algorithms based on typescript
+# ts-ds-tool
+`ts-ds-tool` a tool library of Data Structure and Algorithms based on typescript
 
 [![npm package](https://img.shields.io/npm/v/ts_ds_tool.svg?style=flat-square)](https://www.npmjs.org/package/ts_ds_tool) [![Build Status](https://travis-ci.org/HaifengDu/ts_ds_tool.svg?branch=master)](https://travis-ci.org/HaifengDu/ts_ds_tool) [![codecov](https://codecov.io/gh/HaifengDu/ts_ds_tool/branch/master/graph/badge.svg)](https://codecov.io/gh/HaifengDu/ts_ds_tool)
 
@@ -10,15 +10,15 @@
 ### 1.Use NPM ( Recommend )
 
 ``
-npm install ts_ds_tool --save
+npm install ts-ds-tool --save
 ``
 
 ### 2.Import in Browser
-Use the script tags in the browser to directly import the file and use the global variable DataStructure. We provide files such as ts_ds_tool/data-structure.min.js in the `ts_ds_tool/dist` directory in the npm package, or via [unpkg](https://unpkg.com/ts_ds_tool/) Download it.
+Use the script tags in the browser to directly import the file and use the global variable DataStructure. We provide files such as ts-ds-tool/data-structure.min.js in the `ts-ds-tool/dist` directory in the npm package, or via [unpkg](https://unpkg.com/ts-ds-tool/) Download it.
 
 
 ``` html
-<script src="https://unpkg.com/ts_ds_tool/dist/data-structure.min.js"></script>
+<script src="https://unpkg.com/ts-ds-tool/dist/data-structure.min.js"></script>
 
 ```
 
@@ -75,8 +75,8 @@ Use the script tags in the browser to directly import the file and use the globa
 
 ## Import
 ``` js
-import { Queue } from 'ts_ds_tool';
-import { breadthFirstSearch } from 'ts_ds_tool';
+import { Queue } from 'ts-ds-tool';
+import { breadthFirstSearch } from 'ts-ds-tool';
 ```
 ## License &#128064;
 
