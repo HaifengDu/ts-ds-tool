@@ -126,12 +126,12 @@ export class Sort {
 
             const middleValue = array[first];
             while (first < last){
-                while (first < last && Sort.compare(array[last], middleValue)){
+                while (first < last && Sort.compare(array[last], middleValue, key)){
                     --last;
                 }
                 array[first] = array[last];
 
-                while (first < last && !Sort.compare(array[first] , middleValue)){
+                while (first < last && !Sort.compare(array[first] , middleValue, key)){
                     ++first;
                 }
                 array[last] = array[first];

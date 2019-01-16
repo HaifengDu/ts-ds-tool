@@ -11,8 +11,11 @@
         "isolatedModules": false,
         "experimentalDecorators": true,
         "declaration": true,
-        // "noImplicitAny": true,/
+        "noImplicitAny": true,
         "removeComments": true,
+        "noUnusedLocals": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedParameters":true,
         "suppressImplicitAnyIndexErrors": true,
         "allowSyntheticDefaultImports": true,
     },

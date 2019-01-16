@@ -1,5 +1,3 @@
-import ICompare, { IEqualCompare } from "./interface/ICompare";
-
 // from http://jsperf.com/hashing-strings
 export function hash(str: string){
     let hashed = 0;

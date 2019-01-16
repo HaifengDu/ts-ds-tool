@@ -83,7 +83,7 @@ export class BinarySearchTree<T= number>{
         return nodeSuccessor as BinarySearchTreeNode<T>;
     }
 
-    private copyNode<T>(source: BinarySearchTreeNode<T>){
+    private copyNode(source: BinarySearchTreeNode<T>){
         const node = new BinarySearchTreeNode<T>(source.Value);
         // tslint:disable-next-line:forin
         for (const key in source){

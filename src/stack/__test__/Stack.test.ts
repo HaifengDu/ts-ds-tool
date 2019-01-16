@@ -39,11 +39,13 @@ describe("Stack test", () => {
     });
     test("toString in stack", () => {
         const stack = new Stack();
+        expect(stack.toString()).toEqual("");
         stack.push(1);
         expect(stack.toString()).toEqual("1");
     });
     test("toArray in stack", () => {
         const stack = new Stack();
+        expect(stack.toArray()).toEqual([]);
         stack.push(1);
         expect(stack.toArray()).toEqual([1]);
     });
