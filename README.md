@@ -79,7 +79,7 @@ import { Queue } from 'ts-ds-tool';
 import { breadthFirstSearch } from 'ts-ds-tool';
 ```
 
-Run:
+## Run:
 
 ```sh
 $ git clone git@github.com:HaifengDu/ts_ds_tool.git

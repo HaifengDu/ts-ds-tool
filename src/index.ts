@@ -57,6 +57,38 @@ import { prim } from "./algorithms/graph/prim/prim";
 import { tarjan } from "./algorithms/graph/tarjan/tarjan";
 import { tspBranchAndBound } from "./algorithms/graph/tsp/tspBranchAndBound";
 
+import { bubbleSort } from "./algorithms/sort/bubbleSort/bubbleSort";
+import { insertSort } from "./algorithms/sort/insertSort/insertSort";
+import { mergeSort } from "./algorithms/sort/mergeSort/mergeSort";
+import { quickSort } from "./algorithms/sort/quickSort/quickSort";
+import { selectionSort } from "./algorithms/sort/selectionSort/selectionSort";
+import { shellSort } from "./algorithms/sort/shellSort/shellSort";
+
+import { combination } from "./algorithms/math/combination/combination";
+import { combinationRepeat } from "./algorithms/math/combinationRepeat/combinationRepeat";
+import { gcd } from "./algorithms/math/gcd/gcd";
+import { lcm } from "./algorithms/math/lcm/lcm";
+import { permutation } from "./algorithms/math/permutation/permutation";
+import { powerSet } from "./algorithms/math/powerSet/powerSet";
+
+const sort = {
+    bubbleSort,
+    insertSort,
+    mergeSort,
+    quickSort,
+    selectionSort,
+    shellSort,
+};
+
+const math = {
+    combination,
+    combinationRepeat,
+    permutation,
+    powerSet,
+    gcd,
+    lcm,
+};
+
 export default {
     LinkList,
     DoubleLinkList,
@@ -110,6 +142,8 @@ export default {
     getEulerCircuit,
     isDirectedEulerGraph,
     isUndirectedEulerGraph,
+    sort,
+    math,
 };
 
 export {
@@ -165,4 +199,6 @@ export {
     getEulerCircuit,
     isDirectedEulerGraph,
     isUndirectedEulerGraph,
+    sort,
+    math,
 };

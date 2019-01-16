@@ -96,35 +96,3 @@ test("test diff func", () => {
     expect(union.length).toBe(1);
     expect(union.toString()).toBe("1");
 });
-
-test("test combination func", () => {
-    const arrayset = new ArraySet();
-    const arr = [1, 2, 3, 4, 5];
-    const result = arrayset.combination(arr, 3);
-    expect(result.length).toEqual(10);
-});
-
-test("test comRepeat func", () => {
-    const arrayset = new ArraySet();
-    const arr = [1, 2, 3, 4, 5];
-    let result = arrayset.comRepeat(arr, 3);
-    expect(result.length).toEqual(20);
-    result = arrayset.comRepeat(arr, 1);
-    expect(result.length).toEqual(5);
-});
-
-test("test perAndCom func", () => {
-    const arrayset = new ArraySet();
-    const arr = ["A", "B", "C", "D", "E"];
-    let result = arrayset.perAndCom(arr, 3);
-    expect(result.length).toEqual(60);
-    result = arrayset.perAndCom(arr, 1);
-    expect(result.length).toEqual(5);
-});
-
-test("test powerSet func", () => {
-    const arrayset = new ArraySet();
-    const arr = ["A", "B", "C", "D", "E", "F"];
-    const result = arrayset.powerSet(arr);
-    expect(result.length).toEqual(64);
-});

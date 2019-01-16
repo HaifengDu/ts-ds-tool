@@ -22,7 +22,10 @@ export function toString(value: any) {
  * @param a
  * @param b
  */
-export function defaultCompare<T>(a: T, b: T){
+export function defaultCompare<T>(a: T, b: T, key?: keyof T){
+    if (key){
+        return a[key] >= b[key];
+    }
     return a >= b;
 }
 

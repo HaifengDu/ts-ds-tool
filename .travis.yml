@@ -10,8 +10,8 @@ node_js:
 before_script:
 - npm prune
 script:
-- npm run build
 - npm run ci
+- npm run build
 - npm install codecov -g
 after_success:
 - codecov
