@@ -96,7 +96,7 @@ describe("HashSet test", () => {
     });
 
     test("should from array to create hashset", () => {
-        const array = Array.from({length: 10}, (item, index) => index);
+        const array = Array(100).fill(1).map((item, index) => index);
         const hashSet = HashSet.fromArray(array);
         expect(hashSet.Size).toBe(array.length);
         for (const element of array) {

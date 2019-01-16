@@ -7,8 +7,7 @@ interface INode{
 }
 describe("tarjan test", () => {
     it("tarjan test", () => {
-        const vertices = Array.from({length: 6}
-            , (item, index) => index + 1)
+        const vertices = Array(6).fill(1).map((item, index) => index + item)
             .map(item => new GraphVertex<INode>({value: item, key: item}, "key"));
 
         vertices[0].addEdge(vertices[1]);
