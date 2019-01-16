@@ -1,4 +1,3 @@
-import { AbstractSet } from "../../interface/AbstractSet";
 import { TreeSet } from "../TreeSet";
 
 describe("TreeSet test", () => {
