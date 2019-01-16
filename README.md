@@ -78,6 +78,51 @@ Use the script tags in the browser to directly import the file and use the globa
 import { Queue } from 'ts-ds-tool';
 import { breadthFirstSearch } from 'ts-ds-tool';
 ```
+
+Run:
+
+```sh
+$ git clone git@github.com:HaifengDu/ts_ds_tool.git
+$ cd ts_ds_tool
+$ npm install
+```
+
+This will setup the library dependencies for you.
+
+To run tests, run
+
+```sh
+$ npm run test
+```
+
+To lint your code, run
+
+```sh
+$ npm run lint
+```
+
+To generate test coverage, run
+
+```sh
+$ npm run ci
+```
+
+To compile typescript, run
+```sh
+$ npm run tsc
+```
+
+To only build, run
+```sh
+$ npm run build:dist
+```
+
+To compile and build, run
+
+```sh
+$ npm run build
+```
+
 ## License &#128064;
 
 This project is licensed under the MIT License.
