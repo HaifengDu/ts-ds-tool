@@ -9,11 +9,11 @@ export function topoSort<T>(graph: Graph<T>){
     const clonedGraph = graph.clone();
     const vertices = clonedGraph.getVertexs();
     const queue = new PriorityQueue<GraphVertex<T>>();
-    vertices.forEach(item => queue.enqueue(item, item.InDegree));
+    vertices.forEach(item => queue.enqueue(item, -item.getInDegree()));
     const topoSortedArr: Array<GraphVertex<T>> = [];
     while (!queue.isEmpty()){
         const {Value: vertex , Priority: indegree} = queue.dequeue();
-        if (indegree > 0){
+        if (indegree < 0){
             throw new Error("Cyclic dependency " + vertex.Key);
         }
         topoSortedArr.push(vertex);
@@ -21,7 +21,7 @@ export function topoSort<T>(graph: Graph<T>){
         while (head.Size){
             const edge = head.getHeadNode().Value;
             vertex.deleteEdge(edge);
-            queue.changePriority(edge.EndVertex, edge.EndVertex.InDegree);
+            queue.changePriority(edge.EndVertex, -edge.EndVertex.getInDegree());
         }
     }
     return topoSortedArr;
