@@ -82,16 +82,18 @@ describe("SkipList test", () => {
             value: 1,
         });
         skipList.insert({
-            key: "a",
+            key: "b",
             value: 10,
         });
         const node = {
-            key: "a",
+            key: "c",
             value: 5,
         };
         skipList.insert(node);
+        expect(skipList.findNode(1)).not.toBeNull();
+        expect(skipList.findNode(1).getItem().key).toBe("a");
         expect(skipList.Count).toBe(3);
-        skipList.remove(node);
+        skipList.remove(5);
         expect(skipList.Count).toBe(2);
     });
 });

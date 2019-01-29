@@ -17,15 +17,17 @@ export class LinkList<T> extends Collection<LinkNode<T>> {
 
     /**
      * 向链表中追加一个节点
-     * @param value
+     * @param value value为节点的值
+     * @returns LinkNode
      */
     public append(value: T): LinkNode<T>{
         this.size++;
+        // 空链表时，设置头结点及尾节点
         if (!this.headNode){
             this.headNode = this.tailNode = new LinkNode(value);
             return this.headNode;
         }
-
+        // 只有一个节点时
         if (this.headNode === this.tailNode){
             this.tailNode = new LinkNode(value);
             this.headNode.setNext(this.tailNode);
@@ -39,9 +41,11 @@ export class LinkList<T> extends Collection<LinkNode<T>> {
 
     /**
      * 向头部插入一个节点
-     * @param value
+     * @param value value为节点的值
+     * @returns LinkNode
      */
     public prepend(value: T): LinkNode<T>{
+        // 空链表时
         if (!this.headNode){
             this.headNode = this.tailNode = new LinkNode(value);
         }else{
@@ -65,7 +69,8 @@ export class LinkList<T> extends Collection<LinkNode<T>> {
 
     /**
      * 根据条件删除节点
-     * @param cb
+     * @param arg 如果arg是function，则调用arg，将当前节点value传入，否则将arg与当前节点value对比
+     * @returns boolean
      */
     public deleteNode(arg: any): boolean{
         let temp: LinkNode<T> = this.headNode;
@@ -76,8 +81,8 @@ export class LinkList<T> extends Collection<LinkNode<T>> {
             if (match){
                 this.size--;
                 result = true;
+                // 删除第一个节点时
                 if (temp === this.headNode){
-                    // 删除第一个节点时
                     this.headNode = temp.Next;
                 }else if (temp === this.tailNode){
                     // 删除最后一个节点时
@@ -103,7 +108,8 @@ export class LinkList<T> extends Collection<LinkNode<T>> {
 
     /**
      * 根据条件查找节点
-     * @param listNode
+     * @param 如果arg是function，则调用arg，将当前节点value传入，否则将arg与当前节点value对比
+     * @returns LinkNode
      */
     public findNode(arg: any): LinkNode<T>{
         let temp: LinkNode<T> = this.headNode;
@@ -121,14 +127,15 @@ export class LinkList<T> extends Collection<LinkNode<T>> {
 
     /**
      * 在某个节点后面插入一个节点
-     * @param value
-     * @param arg
+     * @param value 要插入的节点值
+     * @param oriNode 在该节点后插入新节点
+     * @returns boolean
      */
     public insertAfter(value: T, oriNode: LinkNode<T>): boolean{
         const newNode = new LinkNode(value);
         if (oriNode){
             const nextNode = oriNode.Next;
-            // !nextNode&&(this.tailNode = newNode);
+            // 在尾节点后插入新节点
             if (!nextNode || nextNode === this.headNode){
                 this.tailNode = newNode;
             }
@@ -142,6 +149,7 @@ export class LinkList<T> extends Collection<LinkNode<T>> {
 
     /**
      * 获取头结点
+     * @returns LinkNode
      */
     public getHeadNode(): LinkNode<T>{
         return this.headNode;
@@ -149,6 +157,7 @@ export class LinkList<T> extends Collection<LinkNode<T>> {
 
     /**
      * 获取尾节点
+     * @returns LinkNode
      */
     public getTailNode(): LinkNode<T>{
         return this.tailNode;
@@ -156,6 +165,7 @@ export class LinkList<T> extends Collection<LinkNode<T>> {
 
     /**
      * 推出头节点
+     * @returns null | LinkNode
      */
     public shift(): LinkNode<T>{
         if (this.size === 0){
@@ -171,6 +181,7 @@ export class LinkList<T> extends Collection<LinkNode<T>> {
 
     /**
      * 推出尾节点
+     * @returns null | LinkNode
      */
     public pop(): LinkNode<T>{
         let temp: LinkNode<T> = this.headNode;
@@ -179,11 +190,13 @@ export class LinkList<T> extends Collection<LinkNode<T>> {
         if (this.size === 0){
             return null;
         }
+        // 链表只有一个节点时
         if (this.size === 1){
             result = this.headNode;
             this.emptyList();
             return result;
         }
+        // 推出尾节点
         while (temp){
             const nextNode = temp.Next;
             if (!nextNode || nextNode === this.headNode){
@@ -213,10 +226,17 @@ export class LinkList<T> extends Collection<LinkNode<T>> {
         }
     }
 
+    /**
+     * @returns string
+     */
     public toString(){
         return this.toArray().map(node => node.toString()).toString();
     }
 
+    /**
+     * @param arr 数组转单向链表
+     * @returns LinkList
+     */
     public static fromArray<K>(arr: Array<K>): LinkList<K> {
         if (!arr){
             return new LinkList<K>();
@@ -228,6 +248,9 @@ export class LinkList<T> extends Collection<LinkNode<T>> {
         return linkList;
     }
 
+    /**
+     * @returns DoubleLinkList
+     */
     public toDoubleLinkList(): DoubleLinkList<T>{
         if (!this.headNode){
             return new DoubleLinkList<T>();
@@ -242,7 +265,7 @@ export class LinkList<T> extends Collection<LinkNode<T>> {
 
     /**
      * 单向链表转单向循环链表
-     * @param linklist
+     * @returns CycleLinkList
      */
     public toCycleLinkList(): CycleLinkList<T>{
         const cyclelinklist: CycleLinkList<T> = new CycleLinkList<T>();

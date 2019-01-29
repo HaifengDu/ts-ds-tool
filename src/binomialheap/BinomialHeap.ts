@@ -12,11 +12,13 @@ function compareFn<T>(a: T, b: T){
     return a <= b;
 }
 
+/**
+ * 二项堆
+ */
 export class BinomialHeap<T = number>{
     private head: LinkNode<HeapNode<T>>;
     private count = 0;
     constructor(private compare: ICompare<T> = compareFn){
-        //
     }
 
     get Count(){
@@ -44,7 +46,14 @@ export class BinomialHeap<T = number>{
         return !this.head;
     }
 
+    /**
+     * 插入节点
+     * @param value
+     */
     public insert(value: T){
+        /**
+         * 创建新节点为一个新堆，然后合并该堆到当前堆
+         */
         const heap = new BinomialHeap<T>();
         heap.setHead(value);
         const newNode = heap.Head;
@@ -52,6 +61,9 @@ export class BinomialHeap<T = number>{
         return newNode;
     }
 
+    /**
+     * 取最值
+     */
     public deleteExtremum(){
         if (!this.head){
             return null;
@@ -65,6 +77,7 @@ export class BinomialHeap<T = number>{
         let child = deleteNode.minNode.Value.child;
         const newHead = child;
         // NOTE:为什么反转
+        // 删除节点的子节点的父级引用，然后重新合并
         while (child){
             child.Value.parent = null;
             child = child.Next;
@@ -77,12 +90,16 @@ export class BinomialHeap<T = number>{
         return deleteNode.minNode.Value.value;
     }
 
+    /**
+     * 查找最值
+     */
     private _findExtremum(){
         let next = this.head.Next;
         let minNode = this.head;
         let prev: LinkNode<HeapNode<T>> = this.head;
         let minPrev: LinkNode<HeapNode<T>> = null;
         let min = minNode.Value.value;
+        // 查找第一行 最小值
         while (next){
             if (!this.compare(min, next.Value.value)){
                 minPrev = prev;
@@ -95,6 +112,10 @@ export class BinomialHeap<T = number>{
         return {minNode, minPrev};
     }
 
+    /**
+     * 查找最值
+     * @returns T|null
+     */
     public findExtremum(){
         if (!this.head){
             return null;
@@ -102,6 +123,10 @@ export class BinomialHeap<T = number>{
         return this._findExtremum().minNode.Value.value;
     }
 
+    /**
+     * 合并指定堆到当前堆
+     * @param heap
+     */
     public union(heap: BinomialHeap<T>){
         /**
          * 1、将两个堆串联成新链表
@@ -157,6 +182,11 @@ export class BinomialHeap<T = number>{
         return this;
     }
 
+    /**
+     * 合并两个节点
+     * @param tomerge
+     * @param frommerge
+     */
     private link(tomerge: LinkNode<HeapNode<T>>, frommerge: LinkNode<HeapNode<T>>){
         frommerge.setNext(tomerge.Value.child);
         frommerge.Value.parent = tomerge;
@@ -164,6 +194,10 @@ export class BinomialHeap<T = number>{
         tomerge.Value.degree ++;
     }
 
+    /**
+     * 根据度数排列合并两个堆
+     * @param heap
+     */
     private mergeHeaps(heap: BinomialHeap<T>){
         let thisHead = this.head;
         let thatHead = heap.Head;
@@ -174,6 +208,7 @@ export class BinomialHeap<T = number>{
             return this.head;
         }
         let newHead: LinkNode<HeapNode<T>>;
+        // 比较两个堆头节点度数，以度数小的节点为头节点
         if (thisHead.Value.degree <= thatHead.Value.degree){
             newHead = this.head;
             thisHead = thisHead.Next;
@@ -182,6 +217,7 @@ export class BinomialHeap<T = number>{
             thatHead = thatHead.Next;
         }
         let temp = newHead;
+        // 循环两个堆，按读书排列
         while (thisHead && thatHead) {
             if (thisHead.Value.degree <= thatHead.Value.degree) {
                 temp.setNext(thisHead);

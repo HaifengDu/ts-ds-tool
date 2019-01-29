@@ -9,6 +9,9 @@ export class CycleLinkList<T> implements IEnumerable<T>{
         this.linklist = new LinkList<T>();
     }
 
+    /**
+     * 将链表首尾相连
+     */
     private setCircle(){
         this.getTailNode().setNext(this.getHeadNode());
     }
@@ -22,7 +25,8 @@ export class CycleLinkList<T> implements IEnumerable<T>{
 
     /**
      * 向链表中追加一个节点
-     * @param value
+     * @param value 要追加的节点值
+     * @returns LinkNode
      */
     public append(value: T): LinkNode<T>{
         const result = this.linklist.append(value);
@@ -32,7 +36,8 @@ export class CycleLinkList<T> implements IEnumerable<T>{
 
     /**
      * 向头部插入一个节点
-     * @param value
+     * @param value 要插入的节点值
+     * @returns LinkNode
      */
     public prepend(value: T): LinkNode<T>{
         const result = this.linklist.prepend(value);
@@ -42,7 +47,8 @@ export class CycleLinkList<T> implements IEnumerable<T>{
 
     /**
      * 根据条件删除节点
-     * @param cb
+     * @param arg 如果arg是function，则调用arg，将当前节点value传入，否则将arg与当前节点value对比
+     * @returns boolean
      */
     public deleteNode(arg: ((item: T) => boolean)|T): boolean{
         const isFirstOrLast =
@@ -58,7 +64,8 @@ export class CycleLinkList<T> implements IEnumerable<T>{
 
     /**
      * 根据条件查找节点
-     * @param cb
+     * @param arg 如果arg是function，则调用arg，将当前节点value传入，否则将arg与当前节点value对比
+     * @returns LinkNode
      */
     public findNode(arg: ((item: T) => boolean)|T): LinkNode<T>{
         return this.linklist.findNode(arg);
@@ -66,6 +73,7 @@ export class CycleLinkList<T> implements IEnumerable<T>{
 
     /**
      * 获取头结点
+     * @returns LinkNode
      */
     public getHeadNode(): LinkNode<T>{
         return this.linklist.getHeadNode();
@@ -73,6 +81,7 @@ export class CycleLinkList<T> implements IEnumerable<T>{
 
     /**
      * 获取尾节点
+     * @returns LinkNode
      */
     public getTailNode(): LinkNode<T>{
         return this.linklist.getTailNode();
@@ -80,6 +89,7 @@ export class CycleLinkList<T> implements IEnumerable<T>{
 
     /**
      * 推出头节点
+     * @returns LinkNode
      */
     public shift(): LinkNode<T>{
         const result =  this.linklist.shift();
@@ -92,6 +102,7 @@ export class CycleLinkList<T> implements IEnumerable<T>{
 
     /**
      * 推出尾节点
+     * @returns LinkNode
      */
     public pop(): LinkNode<T>{
         const result = this.linklist.pop();
@@ -104,8 +115,9 @@ export class CycleLinkList<T> implements IEnumerable<T>{
 
     /**
      * 在某个节点后面插入一个节点
-     * @param value
-     * @param arg
+     * @param value 要插入的节点值
+     * @param oriNode 在该节点后插入新节点
+     * @returns boolean
      */
 
     public insertAfter(value: T, oriNode: LinkNode<T>): boolean{
@@ -119,13 +131,16 @@ export class CycleLinkList<T> implements IEnumerable<T>{
         this.linklist.clear();
     }
 
+    /**
+     * @returns string
+     */
     public toString(){
         return this.linklist.toString();
     }
 
     /**
-     *
      * @param arr 数组转单向循环链表
+     * @returns CycleLinkList
      */
     public static fromArray<K>(arr: Array<K>): CycleLinkList<K>{
         if (!arr){

@@ -1,5 +1,8 @@
 import { HashTable } from "../hashtable/HashTable";
 
+/**
+ * 哈希字典
+ */
 export class HashMap<T>{
     private map: HashTable<T>;
     constructor(capacity?: number){

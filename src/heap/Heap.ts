@@ -5,26 +5,50 @@ export abstract class Heap<T>{
         return this.container.length;
     }
 
+    /**
+     * 获取左节点索引(2n+1)
+     * @param parent
+     */
     private getLeftChildIndex(parent: number){
         return (2 * parent) + 1;
     }
 
+    /**
+     * 获取右节点索引(2n+2)
+     * @param parent
+     */
     private getRigthChildIndex(parent: number){
         return (2 * parent) + 2;
     }
 
+    /**
+     * 获取父节点索引 当前索引值一半下取整
+     * @param index
+     */
     private getParentIndex(index: number){
         return Math.floor((index - 1) / 2);
     }
 
+    /**
+     * 获取左节点
+     * @param parent
+     */
     private getLeftChild(parent: number){
         return this.container[this.getLeftChildIndex(parent)];
     }
 
+    /**
+     * 获取右节点
+     * @param parent
+     */
     private getRightChild(parent: number){
         return this.container[this.getRigthChildIndex(parent)];
     }
 
+    /**
+     * 获取父节点
+     * @param index
+     */
     private getParent(index: number){
         return this.container[this.getParentIndex(index)];
     }
@@ -47,11 +71,12 @@ export abstract class Heap<T>{
         this.container[indexOne] = temp;
     }
 
+    /**
+     * 从指定节点向上堆化
+     * @param customStartIndex 未指定位置默认从最末级开始
+     */
     private heapifyUp(customStartIndex?: number){
-        /**
-         * desc
-         * 比较子节点和父节点大小，交换
-         */
+        // 比较子节点和父节点大小，交换
         let currentIndex = customStartIndex || this.container.length - 1;
         while (this.hasParent(currentIndex) && !this.compare(this.getParent(currentIndex),
          this.container[currentIndex])){
@@ -60,6 +85,10 @@ export abstract class Heap<T>{
         }
     }
 
+    /**
+     * 从指定节点向上堆化
+     * @param customStartIndex 未指定位置默认从根级开始
+     */
     private heapifyDown(customStartIndex?: number){
         /**
          * desc
@@ -106,6 +135,10 @@ export abstract class Heap<T>{
     //     }
     // }
 
+    /**
+     * 弹出堆顶元素
+     * @returns T|null
+     */
     public poll(){
         if (this.container.length === 0){
             return null;
@@ -114,6 +147,7 @@ export abstract class Heap<T>{
             return this.container.pop();
         }
         const item = this.container[0];
+        // 将最后一个节点赋值到堆顶，然后向下堆化
         this.container[0] = this.container.pop();
         this.heapifyDown();
         return item;
@@ -127,30 +161,45 @@ export abstract class Heap<T>{
         return this.container[0];
     }
 
+    /**
+     * 添加节点
+     * @param item
+     */
     public add(item: T){
+        // 添加节点到末级，然后向上堆化
         this.container.push(item);
         this.heapifyUp();
         return this;
     }
 
+    /**
+     * 删除对应节点
+     * @param item
+     */
     public remove(item: ((item: T) => boolean)|T) {
+        // 查找所有要删除的节点，用于迭代
         const numberOfItemsToRemove = this.findAll(item).length;
 
         for (let iteration = 0; iteration < numberOfItemsToRemove; iteration += 1) {
-          const indexToRemove = this.findAllIndex(item).pop();
-          if (indexToRemove === (this.container.length - 1)) {
-            this.container.pop();
-          } else {
-            this.container[indexToRemove] = this.container.pop();
-
-            const parentItem = this.getParent(indexToRemove);
-
-            if (this.hasLeftChild(indexToRemove) && !parentItem){
-              this.heapifyDown(indexToRemove);
+            // 每次查找要删除节点的索引，因为每删除一个值，表中的索引都会发生变化
+            const indexToRemove = this.findAllIndex(item).pop();
+            // 最后一个节点，直接弹出
+            if (indexToRemove === (this.container.length - 1)) {
+                this.container.pop();
             } else {
-              this.heapifyUp(indexToRemove);
+                this.container[indexToRemove] = this.container.pop();
+
+                const parentItem = this.getParent(indexToRemove);
+
+                // 存在子节点并且（是根节点或者满足父级和子级关系） 向下堆化
+                // 否则向上堆化
+                if (this.hasLeftChild(indexToRemove) &&
+                (!parentItem || this.compare(parentItem, this.container[indexToRemove]))){
+                    this.heapifyDown(indexToRemove);
+                } else {
+                    this.heapifyUp(indexToRemove);
+                }
             }
-          }
         }
 
         return numberOfItemsToRemove > 0;
@@ -164,19 +213,28 @@ export abstract class Heap<T>{
         return !this.container.length;
     }
 
+    /**
+     * 查找符合条件的节点
+     * @param arg T|T=>boolean
+     */
     public find(arg: any){
         let temp: T = null;
-        this.container.forEach(item => {
-            const match = typeof arg === "function" ? arg(item) : arg === item;
+        // tslint:disable-next-line:prefer-for-of
+        for (let index = 0; index < this.container.length; index++) {
+            const element = this.container[index];
+            const match = typeof arg === "function" ? arg(element) : arg === element;
             if (match){
-                temp = item;
-                return false;
+                temp = element;
+                break;
             }
-            return true;
-        });
+        }
         return temp;
     }
 
+    /**
+     * 查找所有符合添加的节点
+     * @param arg T|T=>boolean
+     */
     public findAll(arg: any){
         const temp: Array<T> = [];
         this.container.forEach(item => {

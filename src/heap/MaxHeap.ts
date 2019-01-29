@@ -1,5 +1,8 @@
 import { Heap } from "./Heap";
 
+/**
+ * 大顶堆
+ */
 export class MaxHeap<T> extends Heap<T>{
     constructor(private key?: keyof T){
         super();

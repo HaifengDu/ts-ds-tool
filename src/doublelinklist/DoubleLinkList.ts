@@ -11,15 +11,18 @@ export class DoubleLinkList<T> extends Collection<DoubleLinkNode<T>> {
         return this.size;
     }
     /**
-     * 向链表中追加一个节点
+     * 向链表中追加一个节点，value为节点的值
      * @param value
+     * @returns DoubleLinkNode
      */
     public append(value: T): DoubleLinkNode<T> {
         this.size++;
+        // 空链表时，设置头结点及尾节点
         if (!this.headNode) {
             this.headNode = this.tailNode = new DoubleLinkNode(value, null, null);
             return this.headNode;
         }
+        // 只有一个节点时
         if (this.headNode === this.tailNode) {
             this.tailNode = new DoubleLinkNode(value);
             this.headNode.setNext(this.tailNode);
@@ -30,11 +33,14 @@ export class DoubleLinkList<T> extends Collection<DoubleLinkNode<T>> {
         this.tailNode = tailNode;
         return this.headNode;
     }
+
     /**
-     * 向头部插入一个节点
+     * 向头部插入一个节点，value为节点的值
      * @param value
+     * @returns DoubleLinkNode
      */
     public prepend(value: T): DoubleLinkNode<T> {
+        // 空链表时
         if (!this.headNode) {
             this.headNode = this.tailNode = new DoubleLinkNode(value);
         }else{
@@ -45,6 +51,7 @@ export class DoubleLinkList<T> extends Collection<DoubleLinkNode<T>> {
         this.size++;
         return this.headNode;
     }
+
     private emptyList() {
         this.headNode = this.tailNode = null;
         this.size = 0;
@@ -59,7 +66,8 @@ export class DoubleLinkList<T> extends Collection<DoubleLinkNode<T>> {
 
     /**
      * 根据条件删除节点
-     * @param cb
+     * @param arg 如果arg是function，则调用arg，将当前节点value传入，否则将arg与当前节点value对比
+     * @returns boolean
      */
     public deleteNode(arg: any): boolean {
         let temp: DoubleLinkNode<T> = this.headNode;
@@ -94,9 +102,11 @@ export class DoubleLinkList<T> extends Collection<DoubleLinkNode<T>> {
         }
         return result;
     }
+
     /**
      * 根据条件查找节点
-     * @param listNode
+     * @param arg 如果arg是function，则调用arg，将当前节点value传入，否则将arg与当前节点value对比
+     * @returns DoubleLinkNode
      */
     public findNode(arg: any): DoubleLinkNode<T> {
         let temp: DoubleLinkNode<T> = this.headNode;
@@ -114,8 +124,9 @@ export class DoubleLinkList<T> extends Collection<DoubleLinkNode<T>> {
 
     /**
      * 在某个节点后面插入一个节点
-     * @param value
-     * @param arg
+     * @param value 要插入的节点值
+     * @param oriNode 在该节点后插入新节点
+     * @returns boolean
      */
     public insertAfter(value: T, oriNode: DoubleLinkNode<T>){
         const newNode = new DoubleLinkNode(value);
@@ -134,18 +145,22 @@ export class DoubleLinkList<T> extends Collection<DoubleLinkNode<T>> {
 
     /**
      * 获取头结点
+     * @returns DoubleLinkNode
      */
     public getHeadNode(): DoubleLinkNode<T> {
         return this.headNode;
     }
     /**
      * 获取尾节点
+     * @returns DoubleLinkNode
      */
     public getTailNode(): DoubleLinkNode<T> {
         return this.tailNode;
     }
+
     /**
      * 推出头节点
+     * @returns null | LinkNode
      */
     public shift(): DoubleLinkNode<T> {
         if (this.size === 0) {
@@ -158,8 +173,10 @@ export class DoubleLinkList<T> extends Collection<DoubleLinkNode<T>> {
         this.size--;
         return temp;
     }
+
     /**
      * 推出尾节点
+     * @returns null | LinkNode
      */
     public pop(): DoubleLinkNode<T> {
         let temp: DoubleLinkNode<T> = this.headNode;
@@ -198,10 +215,17 @@ export class DoubleLinkList<T> extends Collection<DoubleLinkNode<T>> {
         }
     }
 
+    /**
+     * @returns string
+     */
     public toString() {
         return this.toArray().map(node => node.toString()).toString();
     }
 
+    /**
+     * @param arr 数组转双向链表
+     * @returns DoubleLinkList
+     */
     public static fromArray<K>(arr: Array<K>): DoubleLinkList<K> {
         if (!arr) {
             return new DoubleLinkList<K>();

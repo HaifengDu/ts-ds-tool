@@ -26,6 +26,9 @@ export class DisjointSetItem<T>{
         return this.parent === null;
     }
 
+    /**
+     * 获取子集数量
+     */
     getRank(){
         if (Object.keys(this.children).length === 0){
             return 0;

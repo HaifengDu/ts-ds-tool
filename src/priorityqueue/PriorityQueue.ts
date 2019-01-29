@@ -36,8 +36,8 @@ export class PriorityQueue<T> extends Collection<T>{
 
     /**
      * 向优先队列中添加一个节点
-     * @param value
-     * @param priority
+     * @param value 节点的值
+     * @param priority 节点的优先级
      */
     public enqueue(value: T, priority: number){
         this.heap.add(new PriorityQueueNode(value, priority));
@@ -64,6 +64,7 @@ export class PriorityQueue<T> extends Collection<T>{
     /**
      * 判断是否存在
      * @param value
+     * @returns boolean
      */
     public has(value: T){
         return !!this.heap.find(item => item.Value === value);
@@ -83,6 +84,9 @@ export class PriorityQueue<T> extends Collection<T>{
         return this.heap.isEmpty();
     }
 
+    /**
+     * @returns string
+     */
     public toString() {
         return this.heap.toString();
     }

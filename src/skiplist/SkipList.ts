@@ -1,5 +1,8 @@
 import { SkipListNode } from "./SkipListNode";
 
+/**
+ * 跳跃表
+ */
 export class SkipList<T>{
     private level = 0;
     private count = 0;
@@ -8,22 +11,40 @@ export class SkipList<T>{
         this.head = new SkipListNode();
     }
 
+    /**
+     * 层级
+     */
     public get Level(){
         return this.level;
     }
 
+    /**
+     * 节点数
+     */
     public get Count(){
         return this.count;
     }
 
+    /**
+     * 头节点
+     */
     public get Head(){
         return this.head;
     }
 
+    /**
+     * 是否为空
+     */
     public isEmpty(){
         return this.count === 0;
     }
 
+    /**
+     * 随机生成节点层级
+     * 以2的指数级随机
+     * @private
+     * @returns number
+     */
     private randomLevel(){
         let k = 0;
         let random = parseInt((Math.random() * 10).toString(), 10);
@@ -34,23 +55,41 @@ export class SkipList<T>{
         return k > this.level ? this.level : k;
     }
 
+    /**
+     * 查找节点
+     * @param item 如果存在compareKey，item为compareKey的值，否则item为T类型值
+     * @returns SkipListNode<T>
+     */
     public findNode(item: any): SkipListNode<T>{
         let result: SkipListNode<T> = null;
         let temp = this.head;
+        // 从顶层开始向下遍历
         for (let i = this.level - 1; i >= 0; i--){
-            while (temp.getNext(i) && this.compare(temp.getNext(i).getItem() , item)){
+            // 从第i层当前节点向后遍历
+            while (temp.getNext(i) && this.compare(temp.getNext(i).getItem() ,
+            this.compareKey ? {[this.compareKey]: item} as any : item)){
                 temp = temp.getNext(i);
             }
         }
-        if (temp.getNext(0) && temp.getNext(0).getItem() === item){
+        if (!temp.getNext(0)){
+            return result;
+        }
+        let isEqual = false;
+        if (this.compareKey) {
+            isEqual = temp.getNext(0).getItem()[this.compareKey] === item;
+        }else{
+            isEqual = temp.getNext(0).getItem() === item;
+        }
+        if (isEqual){
             result = temp.getNext(0);
         }
         return result;
     }
 
     /**
-     * 插入节点（注：不允许插入相同权重节点）
-     * @param item
+     * 插入节点 不允许插入相同权重节点
+     * @param item item 如果存在compareKey，item为compareKey的值，否则item为T类型值
+     * @returns this
      */
     public insert(item: T){
         /**
@@ -73,9 +112,14 @@ export class SkipList<T>{
         return this;
     }
 
-    public remove(arg: T){
-        const node = this.findNode(arg);
+    /**
+     * 删除
+     * @param item item 如果存在compareKey，item为compareKey的值，否则item为T类型值
+     */
+    public remove(item: any){
+        const node = this.findNode(item);
         if (node){
+            // 链接删除的前节点和后节点
             const height = node.getHeight();
             for (let i = 0; i < height; i++){
                 const prev = node.getPrev(i);
@@ -85,6 +129,7 @@ export class SkipList<T>{
                     next.setPrev(i, prev);
                 }
             }
+            // 删除顶层，降级
             while (this.level && !this.head.getNext(this.level - 1)){
                 this.head.deleteLastLevel();
                 this.level--;
@@ -94,6 +139,10 @@ export class SkipList<T>{
         return this;
     }
 
+    /**
+     * 获取跳表数据表  根据层级展示为二维数组
+     * @returns [][]
+     */
     public getSkipTables(){
         const table = [];
         for (let index = 0; index < this.level; index++) {
@@ -123,8 +172,14 @@ export class SkipList<T>{
         return a < b;
     }
 
+    /**
+     * 根据插入的节点查找需要更新的节点
+     * @param item 插入的节点
+     * @returns SkipListNode<T>[]
+     */
     private findUpdateNodes(item: T){
         const updateNodes: Array<SkipListNode<T>> = [];
+        // 从顶层向下查找，直到找到大于item的节点
         for (let i = this.level - 1; i >= 0; i--){
             let tempNode: SkipListNode<T> = this.head.getNext(i);
             let prevNode: SkipListNode<T> = null;
@@ -142,7 +197,14 @@ export class SkipList<T>{
         return updateNodes;
     }
 
+    /**
+     * 在需要更新的节点尾部插入节点
+     * @param node 被插入的节点
+     * @param updateNodes 需要更新的节点数组
+     * @param level 层级
+     */
     private insertNode(node: SkipListNode<T>, updateNodes: Array<SkipListNode<T>>, level: number){
+        // 从当前层级向下更新被插入的节点
         for (let i = level; i >= 0; i--){
             const nextTemp = updateNodes[i].getNext(i);
             if (nextTemp){

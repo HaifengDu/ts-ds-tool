@@ -1,5 +1,8 @@
 import { Heap } from "./Heap";
 
+/**
+ * 小顶堆
+ */
 export class MinHeap<T> extends Heap<T>{
     constructor(private key?: keyof T){
         super();

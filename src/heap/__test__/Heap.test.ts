@@ -148,9 +148,9 @@ describe("MinHeap test", () => {
         minHeap.add(5);
         minHeap.add(7);
 
+        minHeap.remove(6);
         minHeap.remove(10);
         minHeap.remove(5);
-        minHeap.remove(6);
         minHeap.remove(14);
         minHeap.remove(8);
         minHeap.remove(7);

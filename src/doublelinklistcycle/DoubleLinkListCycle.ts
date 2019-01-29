@@ -55,9 +55,9 @@ export class DoubleLinkListCycle<T> implements IEnumerable<T>{
         this.size++;
         return this;
     }
+
     /**
      * 清空所有节点
-     *
      */
     private emptyList(){
         this.headNode = this.tailNode = null;
@@ -66,6 +66,7 @@ export class DoubleLinkListCycle<T> implements IEnumerable<T>{
 
     /**
      * 推出头节点
+     * @returns DoubleLinkListNode<T>
      */
     public shift(): DoubleLinkListNode<T>{
         const result = this.headNode;
@@ -81,6 +82,7 @@ export class DoubleLinkListCycle<T> implements IEnumerable<T>{
 
     /**
      * 推出尾节点
+     * @returns DoubleLinkListNode<T>
      */
     public pop(): DoubleLinkListNode<T>{
         const result = this.tailNode;
@@ -96,7 +98,7 @@ export class DoubleLinkListCycle<T> implements IEnumerable<T>{
 
     /**
      * 根据条件删除节点
-     * @param arg
+     * @param arg 如果arg是function，则调用arg，将当前节点value传入，否则将arg与当前节点value对比
      */
     public deleteNode(arg: any){
         const deleteArr: Array<number> = [];
@@ -109,19 +111,20 @@ export class DoubleLinkListCycle<T> implements IEnumerable<T>{
             const match = typeof arg === "function" ? arg(cycleNode.value) : (cycleNode.value === arg);
             let deleteNode: DoubleLinkListNode<T> = null;
             if (match){
+                // 如果只有一个节点，清空链表
                 if (this.headNode === this.tailNode){
                     this.emptyList();
                     break;
                 }else{
+                    // 设置被删除节点的上一个节点的next指向被删除节点的下一个节点
+                    // 被删除节点的下一个节点的prev指向被删除节点的上一个节点
                     cycleNode.Prev.setNext(cycleNode.Next);
                     cycleNode.Next.setPre(cycleNode.Prev);
                 }
                 deleteNode = cycleNode;
                 deleteArr.push(index);
             }
-
             cycleNode = cycleNode.Next;
-
             const shouldBreak = cycleNode === this.headNode;
 
             if (deleteNode){
@@ -131,7 +134,6 @@ export class DoubleLinkListCycle<T> implements IEnumerable<T>{
                 if (deleteNode === this.tailNode){
                     this.tailNode = deleteNode.Prev;
                 }
-
                 deleteNode.setNext(null);
                 deleteNode.setPre(null);
             }
@@ -143,10 +145,11 @@ export class DoubleLinkListCycle<T> implements IEnumerable<T>{
         }
     }
 
-//     /**
-//      * 根据条件查找节点
-//      * @param cb
-//      */
+     /**
+      * 根据条件查找节点
+      * @param arg 如果arg是function，则调用arg，将当前节点value传入，否则将arg与当前节点value对比
+      * @returns DoubleLinkListNode
+      */
     public findNode(arg: any): DoubleLinkListNode<T>{
         let cycleNode: DoubleLinkListNode<T> = this.headNode;
         let result: DoubleLinkListNode<T> = null;
@@ -163,23 +166,33 @@ export class DoubleLinkListCycle<T> implements IEnumerable<T>{
         return result;
     }
 
-//    /**
-//      * 获取头结点
-//      */
+    /**
+     * 获取头结点
+     * @returns DoubleLinkListNode
+     */
     public getHeadNode(): DoubleLinkListNode<T>{
         return this.headNode;
     }
 
-//     /**
-//      * 获取尾节点
-//      */
+     /**
+      * 获取尾节点
+      * @returns DoubleLinkListNode
+      */
     public getTailNode(): DoubleLinkListNode<T>{
         return this.tailNode;
     }
 
+    /**
+     * 是否为空链表
+     * @returns boolean
+     */
     public isEmpty(): boolean{
         return !this.Size;
     }
+
+    /**
+     * @returns string
+     */
     public toString(){
         let temp = this.headNode;
         const arr: Array<DoubleLinkListNode<T>> = [];
