@@ -1,6 +1,6 @@
 {
   "name": "ts-ds-tool",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Data structure and algorithm of TypeScript",
   "main": "dist/data-structure.js",
   "module": "dist/data-structure.es.js",
