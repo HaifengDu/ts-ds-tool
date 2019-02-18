@@ -95,7 +95,8 @@ export class Heap {
             else {
                 this.container[indexToRemove] = this.container.pop();
                 const parentItem = this.getParent(indexToRemove);
-                if (this.hasLeftChild(indexToRemove) && !parentItem) {
+                if (this.hasLeftChild(indexToRemove) &&
+                    (!parentItem || this.compare(parentItem, this.container[indexToRemove]))) {
                     this.heapifyDown(indexToRemove);
                 }
                 else {
@@ -113,14 +114,14 @@ export class Heap {
     }
     find(arg) {
         let temp = null;
-        this.container.forEach(item => {
-            const match = typeof arg === "function" ? arg(item) : arg === item;
+        for (let index = 0; index < this.container.length; index++) {
+            const element = this.container[index];
+            const match = typeof arg === "function" ? arg(element) : arg === element;
             if (match) {
-                temp = item;
-                return false;
+                temp = element;
+                break;
             }
-            return true;
-        });
+        }
         return temp;
     }
     findAll(arg) {

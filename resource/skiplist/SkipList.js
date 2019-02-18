@@ -31,11 +31,21 @@ export class SkipList {
         let result = null;
         let temp = this.head;
         for (let i = this.level - 1; i >= 0; i--) {
-            while (temp.getNext(i) && this.compare(temp.getNext(i).getItem(), item)) {
+            while (temp.getNext(i) && this.compare(temp.getNext(i).getItem(), this.compareKey ? { [this.compareKey]: item } : item)) {
                 temp = temp.getNext(i);
             }
         }
-        if (temp.getNext(0) && temp.getNext(0).getItem() === item) {
+        if (!temp.getNext(0)) {
+            return result;
+        }
+        let isEqual = false;
+        if (this.compareKey) {
+            isEqual = temp.getNext(0).getItem()[this.compareKey] === item;
+        }
+        else {
+            isEqual = temp.getNext(0).getItem() === item;
+        }
+        if (isEqual) {
             result = temp.getNext(0);
         }
         return result;
@@ -54,8 +64,8 @@ export class SkipList {
         this.count++;
         return this;
     }
-    remove(arg) {
-        const node = this.findNode(arg);
+    remove(item) {
+        const node = this.findNode(item);
         if (node) {
             const height = node.getHeight();
             for (let i = 0; i < height; i++) {

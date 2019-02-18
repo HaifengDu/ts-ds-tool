@@ -12,7 +12,7 @@ export declare class SkipList<T> {
     private randomLevel;
     findNode(item: any): SkipListNode<T>;
     insert(item: T): this;
-    remove(arg: T): this;
+    remove(item: any): this;
     getSkipTables(): any[];
     toString(): any;
     private compare;

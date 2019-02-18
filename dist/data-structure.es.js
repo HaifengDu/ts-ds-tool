@@ -882,14 +882,26 @@ SkipList.prototype.randomLevel = function randomLevel () {
     return k > this.level ? this.level : k;
 };
 SkipList.prototype.findNode = function findNode (item) {
+        var obj;
+
     var result = null;
     var temp = this.head;
     for (var i = this.level - 1; i >= 0; i--) {
-        while (temp.getNext(i) && this.compare(temp.getNext(i).getItem(), item)) {
+        while (temp.getNext(i) && this.compare(temp.getNext(i).getItem(), this.compareKey ? ( obj = {}, obj[this.compareKey] = item, obj ) : item)) {
             temp = temp.getNext(i);
         }
     }
-    if (temp.getNext(0) && temp.getNext(0).getItem() === item) {
+    if (!temp.getNext(0)) {
+        return result;
+    }
+    var isEqual = false;
+    if (this.compareKey) {
+        isEqual = temp.getNext(0).getItem()[this.compareKey] === item;
+    }
+    else {
+        isEqual = temp.getNext(0).getItem() === item;
+    }
+    if (isEqual) {
         result = temp.getNext(0);
     }
     return result;
@@ -908,10 +920,10 @@ SkipList.prototype.insert = function insert (item) {
     this.count++;
     return this;
 };
-SkipList.prototype.remove = function remove (arg) {
+SkipList.prototype.remove = function remove (item) {
         var this$1 = this;
 
-    var node = this.findNode(arg);
+    var node = this.findNode(item);
     if (node) {
         var height = node.getHeight();
         for (var i = 0; i < height; i++) {
@@ -1312,7 +1324,8 @@ Heap.prototype.remove = function remove (item) {
         else {
             this$1.container[indexToRemove] = this$1.container.pop();
             var parentItem = this$1.getParent(indexToRemove);
-            if (this$1.hasLeftChild(indexToRemove) && !parentItem) {
+            if (this$1.hasLeftChild(indexToRemove) &&
+                (!parentItem || this$1.compare(parentItem, this$1.container[indexToRemove]))) {
                 this$1.heapifyDown(indexToRemove);
             }
             else {
@@ -1329,15 +1342,17 @@ Heap.prototype.isEmpty = function isEmpty () {
     return !this.container.length;
 };
 Heap.prototype.find = function find (arg) {
+        var this$1 = this;
+
     var temp = null;
-    this.container.forEach(function (item) {
-        var match = typeof arg === "function" ? arg(item) : arg === item;
+    for (var index = 0; index < this.container.length; index++) {
+        var element = this$1.container[index];
+        var match = typeof arg === "function" ? arg(element) : arg === element;
         if (match) {
-            temp = item;
-            return false;
+            temp = element;
+            break;
         }
-        return true;
-    });
+    }
     return temp;
 };
 Heap.prototype.findAll = function findAll (arg) {
