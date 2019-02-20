@@ -12,7 +12,7 @@ class CollectionEnumerator<T> implements IEnumerator<T>{
     get Current() {
         return {
             value : this.array[this.index],
-            done : this.index === this.array.length - 1,
+            done : this.array.length > 0 ? this.index === this.array.length - 1 : true,
         };
     }
 }

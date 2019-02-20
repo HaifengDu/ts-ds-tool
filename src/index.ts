@@ -1,7 +1,9 @@
 import { CycleLinkList } from "./cyclelinklist/CycleLinkList";
 import { DoubleLinkList } from "./doublelinklist/DoubleLinkList";
+import { DoubleLinkNode } from "./doublelinklist/DoubleLinkNode";
 import { DoubleLinkListCycle as DoubleCycleLinkList } from "./doublelinklistcycle/DoubleLinkListCycle";
 import { LinkList } from "./linklist/LinkList";
+import { LinkNode } from "./linklist/LinkNode";
 
 import { Queue } from "./queue/Queue";
 import { SkipList } from "./skiplist/SkipList";
@@ -91,7 +93,9 @@ const math = {
 
 export default {
     LinkList,
+    LinkNode,
     DoubleLinkList,
+    DoubleLinkNode,
     CycleLinkList,
     DoubleCycleLinkList,
     Stack,
@@ -148,7 +152,9 @@ export default {
 
 export {
     LinkList,
+    LinkNode,
     DoubleLinkList,
+    DoubleLinkNode,
     CycleLinkList,
     DoubleCycleLinkList,
     Stack,
