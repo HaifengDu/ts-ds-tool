@@ -1,7 +1,9 @@
 import { CycleLinkList } from "./cyclelinklist/CycleLinkList";
 import { DoubleLinkList } from "./doublelinklist/DoubleLinkList";
+import { DoubleLinkNode } from "./doublelinklist/DoubleLinkNode";
 import { DoubleLinkListCycle as DoubleCycleLinkList } from "./doublelinklistcycle/DoubleLinkListCycle";
 import { LinkList } from "./linklist/LinkList";
+import { LinkNode } from "./linklist/LinkNode";
 import { Queue } from "./queue/Queue";
 import { SkipList } from "./skiplist/SkipList";
 import { Stack } from "./stack/Stack";
@@ -78,7 +80,9 @@ declare const math: {
 };
 declare const _default: {
     LinkList: typeof LinkList;
+    LinkNode: typeof LinkNode;
     DoubleLinkList: typeof DoubleLinkList;
+    DoubleLinkNode: typeof DoubleLinkNode;
     CycleLinkList: typeof CycleLinkList;
     DoubleCycleLinkList: typeof DoubleCycleLinkList;
     Stack: typeof Stack;
@@ -147,4 +151,4 @@ declare const _default: {
     };
 };
 export default _default;
-export { LinkList, DoubleLinkList, CycleLinkList, DoubleCycleLinkList, Stack, Queue, SkipList, Heap, MaxHeap, MinHeap, BinomialHeap, LeftistTree, PriorityQueue, ArraySet, HashTable, HashMap, HashSet, TreeMap, TreeSet, BasicBinaryTree, BasicBinaryTreeNode, BinarySearchTree, AvlTree, RedBlackTree, FenwickTree, HuffmanTree, HuffmanTreeBuilder, binarySearch, kmp, lcs, lcstr, lcstropt, levenshteinDistance, dpMaxSubArray, maxSubArray, minAndMax, Graph, GraphVertex, GraphEdge, breadthFirstSearch, depthFirstSearch, dijkstra, bellmanFord, floydWarshall, isconnected, tarjan, prim, kruskal, tspBranchAndBound, getEulerCircuit, isDirectedEulerGraph, isUndirectedEulerGraph, sort, math, };
+export { LinkList, LinkNode, DoubleLinkList, DoubleLinkNode, CycleLinkList, DoubleCycleLinkList, Stack, Queue, SkipList, Heap, MaxHeap, MinHeap, BinomialHeap, LeftistTree, PriorityQueue, ArraySet, HashTable, HashMap, HashSet, TreeMap, TreeSet, BasicBinaryTree, BasicBinaryTreeNode, BinarySearchTree, AvlTree, RedBlackTree, FenwickTree, HuffmanTree, HuffmanTreeBuilder, binarySearch, kmp, lcs, lcstr, lcstropt, levenshteinDistance, dpMaxSubArray, maxSubArray, minAndMax, Graph, GraphVertex, GraphEdge, breadthFirstSearch, depthFirstSearch, dijkstra, bellmanFord, floydWarshall, isconnected, tarjan, prim, kruskal, tspBranchAndBound, getEulerCircuit, isDirectedEulerGraph, isUndirectedEulerGraph, sort, math, };

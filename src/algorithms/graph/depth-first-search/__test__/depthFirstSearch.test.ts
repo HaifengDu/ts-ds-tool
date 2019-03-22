@@ -40,6 +40,24 @@ describe("depthFirstSearch test", () => {
         expect(depthFirstSearch(graph)).toEqual(["A", "B", "F", "C", "G", "D", "H", "E"]);
         expect(depthFirstSearch(graph, new GraphVertex("J"))).toEqual([]);
         expect(depthFirstSearch(graph, vertexC)).toEqual(["C", "G", "F", "D", "H", "E"]);
+        const shouldEnterVertexs: Array<string> = [];
+        const shouldLeaveVertexs: Array<string> = [];
+        expect(depthFirstSearch(graph, null, vertex => {
+            shouldEnterVertexs.push(vertex.Key);
+        }, vertex => {
+            shouldLeaveVertexs.push(vertex.Key);
+        }));
+        expect(shouldEnterVertexs).toEqual(["A", "B", "F", "C", "G", "D", "H", "E"]);
+        expect(shouldLeaveVertexs).toEqual(["A", "B", "F", "C", "G", "D", "H", "E"]);
+        shouldEnterVertexs.length = 0;
+        shouldLeaveVertexs.length = 0;
+        expect(depthFirstSearch(graph, vertexC, vertex => {
+            shouldEnterVertexs.push(vertex.Key);
+        }, vertex => {
+            shouldLeaveVertexs.push(vertex.Key);
+        }));
+        expect(shouldEnterVertexs).toEqual(["C", "G", "F", "D", "H", "E"]);
+        expect(shouldLeaveVertexs).toEqual(["C", "G", "F", "D", "H", "E"]);
         expect(depthFirstSearch(new Graph())).toEqual([]);
         expect(depthFirstSearchReverse(graph)).toEqual(["A", "B", "F", "C", "G", "D", "H", "E"]);
         expect(depthFirstSearchReverse(graph, new GraphVertex("J"))).toEqual([]);

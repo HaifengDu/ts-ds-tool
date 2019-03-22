@@ -1,5 +1,5 @@
 import { HashMap } from "../../../hashmap/HashMap";
-export function depthFirstSearch(graph, startVertex) {
+export function depthFirstSearch(graph, startVertex, beforeEnter, afterEnter) {
     if (!startVertex) {
         startVertex = graph.getVertexs()[0];
     }
@@ -13,7 +13,9 @@ export function depthFirstSearch(graph, startVertex) {
     while (stack.length) {
         const vertex = stack.pop();
         if (!existHashMap.get(vertex.Key)) {
+            beforeEnter && beforeEnter(vertex);
             arr.push(vertex.Node);
+            afterEnter && afterEnter(vertex);
             existHashMap.put(vertex.Key, true);
         }
         const nextNodes = vertex.getNeighbors().reverse();

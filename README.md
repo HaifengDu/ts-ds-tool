@@ -1,7 +1,7 @@
 # ts-ds-tool
 `ts-ds-tool` a tool library of Data Structure and Algorithms based on typescript
 
-[![npm package](https://img.shields.io/npm/v/ts-ds-tool.svg?style=flat-square)](https://www.npmjs.org/package/ts_ds_tool) [![Build Status](https://travis-ci.org/HaifengDu/ts_ds_tool.svg?branch=master)](https://travis-ci.org/HaifengDu/ts_ds_tool) [![codecov](https://codecov.io/gh/HaifengDu/ts_ds_tool/branch/master/graph/badge.svg)](https://codecov.io/gh/HaifengDu/ts_ds_tool)
+[![npm package](https://img.shields.io/npm/v/ts-ds-tool.svg?style=flat-square)](https://www.npmjs.org/package/ts-ds-tool) [![Build Status](https://travis-ci.org/HaifengDu/ts_ds_tool.svg?branch=master)](https://travis-ci.org/HaifengDu/ts_ds_tool) [![codecov](https://codecov.io/gh/HaifengDu/ts_ds_tool/branch/master/graph/badge.svg)](https://codecov.io/gh/HaifengDu/ts_ds_tool)
 
 # Quick Start
 

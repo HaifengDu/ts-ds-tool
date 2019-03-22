@@ -17,7 +17,7 @@
     prototypeAccessors.Current.get = function () {
         return {
             value: this.array[this.index],
-            done: this.index === this.array.length - 1,
+            done: this.array.length > 0 ? this.index === this.array.length - 1 : true,
         };
     };
 
@@ -3895,7 +3895,7 @@
         return arr;
     }
 
-    function depthFirstSearch(graph, startVertex) {
+    function depthFirstSearch(graph, startVertex, beforeEnter, afterEnter) {
         if (!startVertex) {
             startVertex = graph.getVertexs()[0];
         }
@@ -3909,7 +3909,9 @@
         while (stack.length) {
             var vertex = stack.pop();
             if (!existHashMap.get(vertex.Key)) {
+                beforeEnter && beforeEnter(vertex);
                 arr.push(vertex.Node);
+                afterEnter && afterEnter(vertex);
                 existHashMap.put(vertex.Key, true);
             }
             var nextNodes = vertex.getNeighbors().reverse();
@@ -4764,7 +4766,9 @@
     };
     var index = {
         LinkList: LinkList,
+        LinkNode: LinkNode,
         DoubleLinkList: DoubleLinkList,
+        DoubleLinkNode: DoubleLinkNode,
         CycleLinkList: CycleLinkList,
         DoubleCycleLinkList: DoubleLinkListCycle,
         Stack: Stack,
@@ -4821,7 +4825,9 @@
 
     exports.default = index;
     exports.LinkList = LinkList;
+    exports.LinkNode = LinkNode;
     exports.DoubleLinkList = DoubleLinkList;
+    exports.DoubleLinkNode = DoubleLinkNode;
     exports.CycleLinkList = CycleLinkList;
     exports.DoubleCycleLinkList = DoubleLinkListCycle;
     exports.Stack = Stack;

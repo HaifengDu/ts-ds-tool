@@ -11,7 +11,7 @@ CollectionEnumerator.prototype.next = function next () {
 prototypeAccessors.Current.get = function () {
     return {
         value: this.array[this.index],
-        done: this.index === this.array.length - 1,
+        done: this.array.length > 0 ? this.index === this.array.length - 1 : true,
     };
 };
 
@@ -3889,7 +3889,7 @@ function breadthFirstSearch(graph, startVertex) {
     return arr;
 }
 
-function depthFirstSearch(graph, startVertex) {
+function depthFirstSearch(graph, startVertex, beforeEnter, afterEnter) {
     if (!startVertex) {
         startVertex = graph.getVertexs()[0];
     }
@@ -3903,7 +3903,9 @@ function depthFirstSearch(graph, startVertex) {
     while (stack.length) {
         var vertex = stack.pop();
         if (!existHashMap.get(vertex.Key)) {
+            beforeEnter && beforeEnter(vertex);
             arr.push(vertex.Node);
+            afterEnter && afterEnter(vertex);
             existHashMap.put(vertex.Key, true);
         }
         var nextNodes = vertex.getNeighbors().reverse();
@@ -4758,7 +4760,9 @@ var math = {
 };
 var index = {
     LinkList: LinkList,
+    LinkNode: LinkNode,
     DoubleLinkList: DoubleLinkList,
+    DoubleLinkNode: DoubleLinkNode,
     CycleLinkList: CycleLinkList,
     DoubleCycleLinkList: DoubleLinkListCycle,
     Stack: Stack,
@@ -4814,4 +4818,4 @@ var index = {
 };
 
 export default index;
-export { LinkList, DoubleLinkList, CycleLinkList, DoubleLinkListCycle as DoubleCycleLinkList, Stack, Queue, SkipList, Heap, MaxHeap, MinHeap, BinomialHeap, LeftistTree, PriorityQueue, ArraySet, HashTable, HashMap, HashSet, TreeMap, TreeSet, BasicBinaryTree, BasicBinaryTreeNode, BinarySearchTree, AvlTree, RedBlackTree, FenwickTree, HuffmanTree, HuffmanTreeBuilder, binarySearch, kmp, lcs, lcstr, lcstropt, levenshteinDistance, dpMaxSubArray, maxSubArray, minAndMax, Graph, GraphVertex, GraphEdge, breadthFirstSearch, depthFirstSearch, dijkstra, bellmanFord, floydWarshall, isconnected, tarjan, prim, kruskal, tspBranchAndBound, getEulerCircuit, isDirectedEulerGraph, isUndirectedEulerGraph, sort, math };
+export { LinkList, LinkNode, DoubleLinkList, DoubleLinkNode, CycleLinkList, DoubleLinkListCycle as DoubleCycleLinkList, Stack, Queue, SkipList, Heap, MaxHeap, MinHeap, BinomialHeap, LeftistTree, PriorityQueue, ArraySet, HashTable, HashMap, HashSet, TreeMap, TreeSet, BasicBinaryTree, BasicBinaryTreeNode, BinarySearchTree, AvlTree, RedBlackTree, FenwickTree, HuffmanTree, HuffmanTreeBuilder, binarySearch, kmp, lcs, lcstr, lcstropt, levenshteinDistance, dpMaxSubArray, maxSubArray, minAndMax, Graph, GraphVertex, GraphEdge, breadthFirstSearch, depthFirstSearch, dijkstra, bellmanFord, floydWarshall, isconnected, tarjan, prim, kruskal, tspBranchAndBound, getEulerCircuit, isDirectedEulerGraph, isUndirectedEulerGraph, sort, math };
