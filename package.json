@@ -41,7 +41,7 @@
     "typescript",
     "javascript"
   ],
-  "author": "dhf",
+  "author": "dhf <duhaifeng1@126.com>",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^23.3.1",
